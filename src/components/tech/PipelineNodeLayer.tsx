@@ -136,10 +136,10 @@ export const PipelineNodeLayer: React.FC<PipelineNodeLayerProps> = ({
             }`}
           >
             {!isLayerActiveInDomain
-              ? 'NONAKTIF'
+              ? 'INACTIVE'
               : isLayerSelected
-              ? 'DIPILIH'
-              : 'AKTIF'}
+              ? 'SELECTED'
+              : 'ACTIVE'}
           </div>
         </div>
 
@@ -242,11 +242,11 @@ export const PipelineNodeLayer: React.FC<PipelineNodeLayerProps> = ({
             onClick={handleInspectClick}
             className="px-3 py-1 rounded-lg bg-[#faeed1] hover:bg-[#fde047] text-[#0f172a] font-bold border border-[#0f172a] transition-colors cursor-pointer flex items-center gap-1"
           >
-            <span>Detail Layer</span>
+            <span>Layer Details</span>
             <span>&rarr;</span>
           </button>
         ) : (
-          <span className="text-[#94a3b8]">Nonaktif</span>
+          <span className="text-[#94a3b8]">Inactive</span>
         )}
       </div>
     </motion.div>

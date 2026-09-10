@@ -27,7 +27,12 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
   const [activeProjectId, setActiveProjectId] = useState<string>(projects[0]?.id || 'cimart');
 
   const categories: { id: ProjectCategory; label: string; count: number }[] = [
-    { id: 'all', label: 'Semua Proyek', count: projects.length },
+    { id: 'all', label: 'All Projects', count: projects.length },
+    {
+      id: "frontend",
+      label: "Front-End Web",
+      count: projects.filter((p) => p.category === 'frontend').length
+    },
     {
       id: 'fullstack',
       label: 'Full-Stack Web',
@@ -37,7 +42,7 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
       id: 'mobile',
       label: 'Mobile Flutter',
       count: projects.filter((p) => p.category === 'mobile').length
-    }
+    },
   ];
 
   const filteredProjects =
@@ -59,10 +64,10 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3">
           <div>
             <span className="text-[10px] sm:text-xs font-mono font-black uppercase tracking-wider text-[#0f172a] bg-[#fde047] px-2 py-0.5 sm:px-3 sm:py-0.5 rounded-lg border-2 border-[#0f172a] shadow-[2px_2px_0px_#0f172a] inline-block mb-1">
-              04 // INDEKS PORTOFOLIO
+              04 // PORTFOLIO INDEX
             </span>
-            <h3 className="text-lg sm:text-2xl font-black text-white sm:text-[#0f172a] tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] sm:drop-shadow-none">
-              Eksplorasi Proyek &amp; Hasil Rekayasa
+            <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] sm:drop-shadow-none">
+              Explore Projects &amp; Engineering Outcomes
             </h3>
           </div>
 
@@ -70,7 +75,7 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
           <div className="grid grid-cols-3 sm:flex sm:items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
             {categories.map((cat) => {
               const shortLabel =
-                cat.id === 'all' ? 'Semua' : cat.id === 'fullstack' ? 'Web' : 'Mobile';
+                cat.id === 'all' ? 'All' : cat.id === 'frontend' ? 'Frontend' : cat.id === 'fullstack' ? 'Web' : 'Mobile';
 
               return (
                 <button
@@ -158,7 +163,7 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
                       0{idx + 1}
                     </span>
                     <span className="text-[11px] font-mono font-bold text-[#0284c7]">
-                      {project.category === 'fullstack' ? 'Full-Stack Web' : 'Mobile Flutter'}
+                      {project.category === 'fullstack' ? 'Full-Stack Web' : project.category === 'frontend' ? 'Front-End Web' : 'Mobile Flutter'}
                     </span>
                   </div>
 
@@ -275,7 +280,7 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
                   className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-3.5 py-2 sm:py-1.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white text-[11px] sm:text-xs font-mono font-black border-2 border-[#0f172a] shadow-[2.5px_2.5px_0px_#0f172a] sm:shadow-[3px_3px_0px_#0f172a] cursor-pointer transition-all hover:-translate-y-0.5 active:translate-y-0"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
-                  <span>Buka Studi Kasus</span>
+                  <span>Open Case Study</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </button>
               </div>

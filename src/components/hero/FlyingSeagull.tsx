@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
 
 const SEAGULL_DIALOGUES = [
-  'Kwekk! Ada kentang goreng ga di bawah?',
-  'Dari atas kulihat smash voli si kepiting kencang banget!',
-  'Peluit wasit siap ditiup! Awas bola volinya nyangkut di pohon kelapa!',
-  'Bebek yang di air, oper balik bola voli kepiting kalau nyebur ya!',
-  'Skor voli pantai: Tim Kepiting 10 - Angin Pantai 8!',
-  'Wasit udara melaporkan: Pertandingan voli berjalan seru dan adil!',
-  'Langit cerah banget buat terbang santai di atas pantai ~',
-  'Arus angin hari ini enak banget buat meluncur!',
-  'Portofolio yang keren terlihat jelas dari atas awan sini!'
+  'Squawk! Are there any french fries down there?',
+  'From up here, that crab\'s volleyball spike looks incredibly powerful!',
+  'The referee is ready! Watch that the ball does not land in a palm tree!',
+  'Duck, please return the crab\'s ball if it lands in the water!',
+  'Beach volleyball score: Team Crab 10, Coastal Wind 8!',
+  'Airborne referee reporting: an exciting and fair match is underway!',
+  'The clear sky is perfect for a leisurely flight over the beach ~',
+  'Today\'s breeze is ideal for gliding!',
+  'This impressive portfolio looks even better from above the clouds!'
 ];
 
 const createShuffledDeck = (items: string[], lastItem?: string): string[] => {

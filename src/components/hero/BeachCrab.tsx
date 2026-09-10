@@ -8,17 +8,17 @@ export interface BeachCrabHandle {
 }
 
 const CRAB_DIALOGUES = [
-  '*Klak klik capit*',
-  'Spike capitku tak tertandingi di lapangan voli pantai!',
-  'Bebek jangan ganggu, aku lagi pemanasan servis voli pasir!',
-  'Burung camar di atas tolong jadi wasit voli yang adil ya!',
-  'Smash capit! Lapangan voli pantai hari ini dikuasai tim kepiting!',
-  'Bebek, kalau bola volinya nyebur ke air tolong oper balik ke sini!',
-  'Jalan miring adalah gaya terbaik buat main voli pantai!',
-  'Lapangan voli sudah siap buat turnamen pantai hari ini!',
-  'Awas kena capit tangguhku!',
-  'Pasir pantainya hangat dan empuk banget hari ini ~',
-  'Kode buatan Reyhand rapi dan kokoh banget!'
+  '*Clack, clack go the claws*',
+  'My claw spike is unmatched on the beach volleyball court!',
+  'Do not distract me, duck—I am warming up my serve!',
+  'Seagull, please referee the match fairly from up there!',
+  'Claw smash! Team Crab owns the court today!',
+  'Duck, if the ball lands in the water, please send it back!',
+  'Sideways is the finest way to play beach volleyball!',
+  'The court is ready for today\'s beach tournament!',
+  'Watch out for these powerful claws!',
+  'The sand is especially warm and soft today ~',
+  'Jason\'s code is clean, resilient, and built to last!'
 ];
 
 const createShuffledDeck = (items: string[], lastItem?: string): string[] => {

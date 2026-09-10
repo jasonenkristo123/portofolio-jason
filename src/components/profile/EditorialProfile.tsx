@@ -156,10 +156,10 @@ export const EditorialProfile: React.FC = () => {
         >
           <div className="max-w-2xl">
             <span className="text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#8c6239] block mb-2">
-              Profil &amp; Keahlian
+              Profile &amp; Expertise
             </span>
             <h2 className="text-3xl sm:text-5xl font-black text-[#0f172a] tracking-tight leading-[1.08]">
-              Fullstack &amp; Mobile Developer
+              Full-Stack &amp; Mobile Developer
             </h2>
           </div>
 
@@ -172,7 +172,7 @@ export const EditorialProfile: React.FC = () => {
             />
 
             <p className="max-w-xs text-xs text-[#475569] leading-relaxed">
-              Berpengalaman mengembangkan aplikasi web skala penuh, aplikasi mobile, arsitektur database, serta manajemen infrastruktur Linux.
+              Experienced in full-scale web applications, mobile development, database architecture, and Linux infrastructure management.
             </p>
           </div>
         </motion.div>

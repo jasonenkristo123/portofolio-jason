@@ -118,7 +118,7 @@ export const HeroSection: React.FC = () => {
           />
 
           <p className="mt-3 sm:mt-4 max-w-xl text-center text-xs sm:text-base text-[#f8fafc] font-medium leading-relaxed drop-shadow-md px-2">
-            Full-Stack Developer. Membangun platform Web Skalabel dan mudah diakses dengan performa tinggi
+            Full-Stack Developer building scalable, accessible, and high-performance web platforms.
           </p>
 
           <div className="mt-4 sm:mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3.5 px-2">
@@ -127,12 +127,12 @@ export const HeroSection: React.FC = () => {
               onClick={handleScrollToProjects}
               icon={<ArrowDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
             >
-              Lihat Proyek
+              View Projects
             </TactileButton>
 
             <a
-              href="/cv.pdf"
-              download="cv.pdf"
+              href="/CV-JASONENKRISTO.pdf"
+              download="CV-JASONENKRISTO.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-[#0d2844] hover:bg-[#123559] text-[#f8fafc] border border-[#224c75] hover:border-[#dfcca8]/60 font-medium text-xs sm:text-sm transition-all select-none cursor-pointer hover:-translate-y-0.5"

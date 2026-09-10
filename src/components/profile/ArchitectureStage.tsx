@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Cpu, Code2 } from 'lucide-react';
+import { Terminal, Code2 } from 'lucide-react';
 
 interface ArchitectureStageProps {
   isFlooded: boolean;
@@ -13,26 +13,19 @@ export const ArchitectureStage: React.FC<ArchitectureStageProps> = ({ isFlooded 
     {
       id: 'web',
       icon: <Code2 className="w-5 h-5 text-[#0284c7]" />,
-      title: 'Fullstack Web Development',
+      title: 'Full-Stack Web Development',
       subtitle: 'Laravel Monolith & Modern React Ecosystem',
-      desc: 'Membangun aplikasi web end-to-end dengan backend Laravel / Node.js dan frontend modern React, Next.js, serta TypeScript. Terbiasa mengelola pemodelan database relasional, optimasi query SQL, integrasi REST API, dan antarmuka reaktif yang responsif.',
+      desc: 'Building end-to-end web applications with Laravel or Node.js backends and modern front ends powered by React, Next.js, and TypeScript. Experienced in relational data modeling, SQL query optimization, REST API integration, and responsive reactive interfaces.',
       tags: ['Laravel', 'Inertia.js', 'React', 'Next.js', 'TypeScript', 'PostgreSQL', 'MySQL', 'Tailwind CSS']
     },
-    {
-      id: 'mobile',
-      icon: <Cpu className="w-5 h-5 text-[#0284c7]" />,
-      title: 'Mobile App Engineering',
-      subtitle: 'Cross-Platform Android & iOS Applications',
-      desc: 'Mengembangkan aplikasi mobile lintas platform menggunakan Flutter dan Dart. Menangani arsitektur state management reaktif, konsumsi RESTful API, persistensi data lokal/cloud, serta performa aplikasi yang stabil di Android dan iOS.',
-      tags: ['Flutter', 'Dart SDK', 'Mobile Architecture', 'State Management', 'REST APIs', 'Cloud Firestore']
-    },
+
     {
       id: 'linux',
       icon: <Terminal className="w-5 h-5 text-[#8c6239]" />,
       title: 'Linux & DevOps Workflows',
       subtitle: 'NixOS Daily Driver & Server Management',
-      desc: 'Menggunakan NixOS sebagai sistem operasi harian dengan konfigurasi deklaratif Flakes. Terbiasa dengan manajemen server Linux (Debian/Arch), containerisasi Docker, otomatisasi skrip Bash, dan workflow kolaborasi Git.',
-      tags: ['NixOS Flakes', 'Arch Linux', 'Debian Server', 'Docker', 'Git Branching', 'Bash CLI']
+      desc: 'Using CachyOS as a daily development environment with declarative Flakes configuration. Experienced in Linux server administration across Debian and Arch, Docker containerization, and collaborative Git workflows.',
+      tags: ['Arch Linux', 'Debian Server', 'Docker', 'Git Branching', 'Bash CLI']
     }
   ];
 
@@ -60,7 +53,7 @@ export const ArchitectureStage: React.FC<ArchitectureStageProps> = ({ isFlooded 
       className="w-full flex flex-col gap-6"
     >
       {/* Selector Tabs */}
-      <div className="grid grid-cols-3 gap-2.5 p-1.5 rounded-2xl bg-[#fffdf5] border border-[#e8dbc0] shadow-sm">
+      <div className="grid grid-cols-2 gap-2.5 p-1.5 rounded-2xl bg-[#fffdf5] border border-[#e8dbc0] shadow-sm">
         {pillars.map((pillar, idx) => (
           <motion.button
             key={pillar.id}
@@ -69,9 +62,9 @@ export const ArchitectureStage: React.FC<ArchitectureStageProps> = ({ isFlooded 
             animate={
               isFlooded
                 ? {
-                  rotate: idx === 0 ? -18 : idx === 1 ? 20 : -22,
-                  y: idx === 0 ? 14 : idx === 1 ? -16 : 20,
-                  x: idx === 0 ? -8 : idx === 1 ? 8 : 12
+                  rotate: idx === 0 ? -18 : 20,
+                  y: idx === 0 ? 14 : -16,
+                  x: idx === 0 ? -8 : 8
                 }
                 : { rotate: 0, y: 0, x: 0 }
             }
@@ -143,7 +136,7 @@ export const ArchitectureStage: React.FC<ArchitectureStageProps> = ({ isFlooded 
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         <motion.div
           animate={
             isFlooded
@@ -157,7 +150,7 @@ export const ArchitectureStage: React.FC<ArchitectureStageProps> = ({ isFlooded 
             Clean Architecture
           </span>
           <p className="text-[11px] text-[#64748b] mt-1 leading-relaxed">
-            Struktur kode terorganisir dengan pemisahan dependensi dan modularitas tinggi.
+            Well-organized code with clear dependency boundaries and strong modularity.
           </p>
         </motion.div>
 
@@ -174,7 +167,7 @@ export const ArchitectureStage: React.FC<ArchitectureStageProps> = ({ isFlooded 
             Type-Safe Contract
           </span>
           <p className="text-[11px] text-[#64748b] mt-1 leading-relaxed">
-            Keamanan tipe penuh dari skema database hingga interaksi klien.
+            End-to-end type safety from database schemas to client interactions.
           </p>
         </motion.div>
 
@@ -191,7 +184,7 @@ export const ArchitectureStage: React.FC<ArchitectureStageProps> = ({ isFlooded 
             Linux Workflows
           </span>
           <p className="text-[11px] text-[#64748b] mt-1 leading-relaxed">
-            Konfigurasi deklaratif NixOS, containerisasi Docker, dan efisiensi terminal.
+            Declarative NixOS configuration, Docker containerization, and efficient terminal workflows.
           </p>
         </motion.div>
       </div>

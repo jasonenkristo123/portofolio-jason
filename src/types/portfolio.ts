@@ -1,10 +1,10 @@
-export type ProjectCategory = 'all' | 'fullstack' | 'mobile';
+export type ProjectCategory = 'all' | 'fullstack' | 'mobile' | 'frontend';
 
 export interface Project {
   id: string;
   title: string;
   subtitle: string;
-  category: 'fullstack' | 'mobile';
+  category: 'fullstack' | 'mobile' | 'frontend' | 'backend';
   summary: string;
   description: string;
   architecture: string[];
@@ -44,7 +44,7 @@ export interface ExperienceItem {
   organization: string;
   period: string;
   badge?: string;
-  category?: 'education' | 'bootcamp' | 'project' | 'security';
+  category?: 'education' | 'bootcamp' | 'project' | 'security' | 'Organization';
   description: string;
   highlights?: string[];
   tech: string[];

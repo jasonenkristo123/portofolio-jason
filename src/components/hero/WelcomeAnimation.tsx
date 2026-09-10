@@ -166,7 +166,7 @@ export const WelcomeAnimation = ({ onComplete }: WelcomeAnimationProps) => {
               Jason Enkristo
             </h1>
             <p className="mt-3 text-sm sm:text-base font-semibold tracking-widest text-[#fff9d4] uppercase drop-shadow-md">
-              Diving into Portfolio
+              Diving into the Portfolio
             </p>
 
             <div className="mt-6 w-48 h-1 rounded-full bg-white/20 overflow-hidden">
@@ -185,7 +185,7 @@ export const WelcomeAnimation = ({ onComplete }: WelcomeAnimationProps) => {
           onClick={onComplete}
           className="absolute top-6 right-6 z-20 px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/25 text-xs text-white/90 font-medium transition-colors backdrop-blur-md cursor-pointer"
         >
-          Lewati
+          Skip
         </button>
       </motion.div>
     </AnimatePresence>

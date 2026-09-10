@@ -74,11 +74,11 @@ const layerDetailsMap: Record<
     title: 'Frontend & Web Client',
     subtitle: 'Web & Mobile',
     description:
-      'Pengembangan antarmuka web dan mobile menggunakan React, TypeScript, dan Flutter dengan fokus pada interaktivitas dan performa yang responsif.',
+      'Web and mobile interface development with React, TypeScript, and Flutter, focused on responsive performance and engaging interactions.',
     guarantees: [
       'Type-safe props & contracts',
-      'Aplikasi Android & iOS',
-      'Desain responsif modern'
+      'Android & iOS applications',
+      'Modern responsive design'
     ],
     role: 'Frontend & Mobile'
   },
@@ -86,35 +86,35 @@ const layerDetailsMap: Record<
     title: 'Backend & Server',
     subtitle: 'Server & API',
     description:
-      'Pengembangan arsitektur backend menggunakan Laravel dan Node.js untuk menangani REST API, routing, dan komunikasi data real-time.',
+      'Backend architecture development with Laravel and Node.js for REST APIs, routing, and real-time data communication.',
     guarantees: [
-      'Penanganan transaksi database',
-      'Komunikasi WebSockets',
-      'Otentikasi aman & API tokens'
+      'Database transaction handling',
+      'WebSocket communication',
+      'Secure authentication & API tokens'
     ],
     role: 'Backend Engineering'
   },
   database: {
-    title: 'Database & Penyimpanan',
+    title: 'Database & Storage',
     subtitle: 'Relational & NoSQL',
     description:
-      'Pengelolaan basis data relasional PostgreSQL & MySQL, serta database cloud Firestore dan Supabase dengan sinkronisasi real-time.',
+      'Relational data management with PostgreSQL and MySQL, plus real-time cloud databases powered by Firestore and Supabase.',
     guarantees: [
-      'Migrasi skema via Prisma',
-      'Sinkronisasi real-time NoSQL',
-      'Query terindeks dan teroptimasi'
+      'Schema migrations with Prisma',
+      'Real-time NoSQL synchronization',
+      'Indexed and optimized queries'
     ],
     role: 'Database & Storage'
   },
   devops: {
-    title: 'DevOps & Lingkungan Kerja',
+    title: 'DevOps & Development Environment',
     subtitle: 'Linux & Deployment',
     description:
-      'Alur kerja pengembangan berbasis sistem operasi Linux, isolasi aplikasi dengan Docker, manajemen kode dengan Git, dan hosting edge Vercel.',
+      'Linux-based development workflows, Docker application isolation, Git version control, and edge deployment with Vercel.',
     guarantees: [
-      'Lingkungan kontainer Docker',
-      'Branching & version control Git',
-      'Automasi terminal Unix'
+      'Docker container environments',
+      'Git branching & version control',
+      'Unix terminal automation'
     ],
     role: 'DevOps & Tools'
   }
@@ -156,31 +156,31 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
               </div>
 
               <div className="text-xs font-mono text-[#0284c7] font-bold mt-0.5">
-                Riset & Eksplorasi Keamanan Siber
+                Cybersecurity Research &amp; Exploration
               </div>
             </div>
           </div>
 
           <div className="px-3.5 py-1.5 rounded-xl bg-[#fee2e2] border border-[#dc2626] text-xs font-mono font-bold text-[#dc2626] self-start sm:self-auto flex items-center gap-1.5">
             <Activity className="w-3.5 h-3.5" />
-            <span>Tahap Persiapan</span>
+            <span>IN DEVELOPMENT</span>
           </div>
         </div>
 
         {/* security exploration description */}
         <div className="space-y-2">
           <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748b]">
-            Fokus Eksplorasi
+            Areas of Exploration
           </div>
           <p className="text-sm sm:text-base text-[#1e293b] font-medium leading-relaxed bg-[#fff9d4]/60 p-4 rounded-2xl border border-[#0f172a]/20">
-            Bidang keamanan siber yang sedang dipersiapkan mencakup Web Application Security (OWASP Top 10), Network Traffic Analysis, Capture The Flag (CTF), dan Linux System Security.
+            Planned cybersecurity areas include Web Application Security (OWASP Top 10), Network Traffic Analysis, Capture the Flag (CTF), and Linux System Security.
           </p>
         </div>
 
         {/* security toolkit cards */}
         <div className="space-y-3 pt-2">
           <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#0369a1]">
-            Domain yang Dipersiapkan
+            Planned Focus Areas
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -190,7 +190,7 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
                 <span>Web App Security</span>
               </div>
               <p className="text-xs text-[#475569] font-medium">
-                Vulnerability testing, pencegahan XSS/SQLi, dan audit otentikasi.
+                Vulnerability testing, XSS and SQL injection prevention, and authentication audits.
               </p>
             </div>
 
@@ -200,7 +200,7 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
                 <span>Network Analysis</span>
               </div>
               <p className="text-xs text-[#475569] font-medium">
-                Port scanning, inspeksi paket jaringan, dan firewall.
+                Port scanning, network packet inspection, and firewall configuration.
               </p>
             </div>
 
@@ -210,7 +210,7 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
                 <span>Linux Security</span>
               </div>
               <p className="text-xs text-[#475569] font-medium">
-                Hardening izin sistem, manajemen SSH, dan isolasi proses.
+                System permission hardening, SSH management, and process isolation.
               </p>
             </div>
           </div>
@@ -259,7 +259,7 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
               </div>
 
               <div className="text-xs font-mono text-[#0284c7] font-bold mt-0.5">
-                Kategori: {layerInfo.title}
+                Category: {layerInfo.title}
               </div>
             </div>
           </div>
@@ -269,14 +269,14 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
             onClick={onClearTechSelection}
             className="self-start sm:self-auto px-3.5 py-1.5 rounded-xl bg-[#faeed1] hover:bg-[#fde047] text-xs font-mono font-bold text-[#0f172a] border border-[#0f172a] transition-colors cursor-pointer"
           >
-            &larr; Lihat Detail Kategori
+            &larr; View Category Details
           </button>
         </div>
 
         {/* usage context */}
         <div className="space-y-2">
           <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#64748b]">
-            Penggunaan
+            Usage
           </div>
           <p className="text-sm sm:text-base text-[#1e293b] font-medium leading-relaxed bg-[#fff9d4]/60 p-4 rounded-2xl border border-[#0f172a]/20">
             {selectedTech.usageContext}
@@ -287,10 +287,10 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0369a1]">
-              Digunakan di Proyek
+              Used in Projects
             </span>
             <span className="text-[11px] font-mono text-[#64748b]">
-              {relatedProjects.length} Proyek Terkait
+              {relatedProjects.length} Related Projects
             </span>
           </div>
 
@@ -303,7 +303,7 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
               >
                 <div>
                   <div className="flex items-center justify-between text-[10px] font-mono font-bold text-[#64748b] uppercase pb-1">
-                    <span>{proj.category === 'fullstack' ? 'Web System' : 'Mobile App'}</span>
+                    <span>{proj.category === 'mobile' ? 'Mobile App' : proj.category === 'backend' ? 'Backend API' : 'Web System'}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-[#0f172a] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
 
@@ -339,7 +339,7 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-1 rounded-xl bg-[#0284c7] text-white text-xs font-mono font-black border border-[#0f172a]">
-              DETAIL KATEGORI
+              CATEGORY DETAILS
             </span>
             <span className="text-xs font-mono font-bold text-[#64748b] uppercase">
               {layerInfo.role}
@@ -362,7 +362,7 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
       {/* engineering focus */}
       <div className="space-y-2.5 pt-1">
         <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#0369a1]">
-          Fokus Utama
+          Core Capabilities
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

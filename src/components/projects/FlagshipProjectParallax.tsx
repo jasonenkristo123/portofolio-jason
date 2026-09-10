@@ -42,16 +42,12 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
       <div className="relative z-10 max-w-7xl mx-auto w-full pt-20 sm:pt-24 px-6 sm:px-12 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#fde047] text-[#0f172a] text-xs font-mono font-black border-2 border-[#0f172a] shadow-[3px_3px_0px_#0f172a]">
-            <span>0{index + 1} // {project.category === 'fullstack' ? 'FULL-STACK WEB' : 'MOBILE FLUTTER'}</span>
+            <span>0{index + 1} // {project.category === 'fullstack' ? 'FULL-STACK WEB' : project.category === 'mobile' ? 'MOBILE FLUTTER' : project.category === 'frontend' ? 'FRONTEND WEB' : 'BACKEND API'}</span>
           </div>
 
           <span className="text-xs font-mono font-bold text-[#0f172a] bg-[#fffdf5]/90 px-3 py-1 rounded-lg border border-[#0f172a]/30 hidden sm:inline-block">
             {project.role}
           </span>
-        </div>
-
-        <div className="hidden sm:block text-xs font-mono font-black text-[#0f172a] px-3.5 py-1.5 rounded-xl bg-[#fffdf5] border-2 border-[#0f172a] shadow-[3px_3px_0px_#0f172a]">
-          FLAGSHIP {index + 1} / 3
         </div>
       </div>
 
@@ -128,7 +124,7 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
                 onClick={() => onSelectProject(project)}
                 className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white text-[11px] sm:text-xs font-mono font-black border-2 border-[#0f172a] shadow-[2px_2px_0px_#0f172a] sm:shadow-[3px_3px_0px_#0f172a] hover:translate-x-0.5 hover:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
               >
-                <span>Studi Kasus</span>
+                <span>Case Study</span>
                 <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
 
@@ -136,10 +132,10 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
               {project.isMobileApp ? (
                 <div
                   className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-[#e0f2fe] text-[#0369a1] text-[11px] sm:text-xs font-mono font-bold border-2 border-[#0284c7]/50 cursor-not-allowed opacity-90"
-                  title={project.demoStatusLabel || 'Aplikasi Mobile Native'}
+                  title={project.demoStatusLabel || 'Native Mobile Application'}
                 >
                   <Smartphone className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#0284c7]" />
-                  <span>Mobile Native</span>
+                  <span>Native Mobile App</span>
                 </div>
               ) : project.demoUrl ? (
                 <a
@@ -157,10 +153,10 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
               {project.isPrivateRepo ? (
                 <div
                   className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-[#fee2e2] text-[#991b1b] text-[11px] sm:text-xs font-mono font-bold border-2 border-[#991b1b]/40 cursor-not-allowed opacity-90 sm:ml-auto"
-                  title={project.privateRepoReason || 'Repository privat karena hak cipta institusi & kerahasiaan data'}
+                  title={project.privateRepoReason || 'Private repository due to institutional copyright and data confidentiality requirements'}
                 >
                   <Lock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#dc2626]" />
-                  <span>Repo Private</span>
+                  <span>Private Repository</span>
                 </div>
               ) : project.githubUrl ? (
                 <a
@@ -191,7 +187,7 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
 
             <div className="absolute bottom-5 right-5 px-3.5 py-1.5 rounded-xl bg-[#fde047] border-2 border-[#0f172a] text-xs font-mono font-black text-[#0f172a] shadow-[3px_3px_0px_#0f172a] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2 pointer-events-none">
               <Layers className="w-3.5 h-3.5" />
-              <span>Buka Arsitektur Sistem</span>
+              <span>View System Architecture</span>
             </div>
           </div>
         </div>

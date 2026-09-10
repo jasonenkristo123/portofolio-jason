@@ -62,7 +62,7 @@ export const ProjectPreviewPlaceholder: React.FC<ProjectPreviewPlaceholderProps>
                 {project.title}
               </div>
               <p className="text-xs font-mono font-bold text-[#0284c7] mt-0.5">
-                Preview Screenshot Proyek
+                Project Screenshot Preview
               </p>
             </div>
 

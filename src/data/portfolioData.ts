@@ -1,13 +1,13 @@
 import type { ProfileData, Project, TechItem, ExperienceItem } from '../types/portfolio';
 
 export const profileData: ProfileData = {
-  name: 'Reyhand Astra',
-  tagline: 'Full-Stack & Mobile Developer',
-  education: 'Teknik Informatika (S1) • Universitas Widyatama',
+  name: 'Jason Enkristo',
+  tagline: 'Full-Stack Web Developer',
+  education: 'Information Technology, Brawijaya University',
   status: 'Available for Engineering Roles & Projects',
   bio: 'Informatics engineering undergraduate focused on building end-to-end web platforms and mobile applications with resilient architecture, clean code, and Linux-driven workflows.',
   experienceStart: 'Active Developer',
-  avatarUrl: '/avatar.svg',
+  avatarUrl: '/foto-jason.jpeg',
   interests: [
     'Web Architecture',
     'Mobile Systems',
@@ -184,201 +184,240 @@ export const techStackData: TechItem[] = [
 
 export const projectsData: Project[] = [
   {
-    id: 'cimart',
-    title: 'CiMart (CibendaMart)',
-    subtitle: 'Rural E-Commerce Platform for Desa Cibenda, Pangandaran',
-    category: 'fullstack',
-    summary: 'Platform e-commerce desa yang dibangun atas permintaan Wakil Rektor & Prodi untuk memberdayakan transaksi komoditas sembako, hasil tani, ternak, ikan, dan UMKM warga Desa Cibenda.',
-    description: 'Proyek inisiatif digitalisasi desa yang dimandatkan langsung oleh pimpinan kampus bekerjasama dengan perangkat Desa Cibenda. Platform ini menjembatani produsen desa langsung dengan pembeli regional melalui integrasi peta dan pembayaran terotomatisasi.',
+    id: 'simaba',
+    title: 'SIMABA FILKOM UB',
+    subtitle: 'Official Student Orientation & Management Platform for FILKOM UB',
+    category: 'frontend',
+    summary: 'The official platform for FILKOM UB\'s New Student Campus Life Introduction (PKKMB) and Startup Academy, supporting attendance, assignments, and committee administration.',
+    description: 'A high-performance interactive web application designed to support the complete FILKOM UB student orientation program. It provides a unified portal for assignment submissions, QR code-based attendance, interactive learning materials, and consistent student data management through an administrative dashboard.',
     architecture: [
-      'Backend monolitik Laravel dengan routing frontend React TypeScript via Inertia.js',
-      'WebSockets untuk sinkronisasi pesanan dan status transaksi real-time',
-      'Firebase Cloud Messaging (FCM) untuk push notification otomatis',
-      'Integrasi Leaflet / OpenStreetMap untuk pemetaan titik pengantaran desa',
-      'Payment gateway Midtrans otomatis dengan otentikasi Google OAuth',
-      'Containerisasi Docker untuk memastikan reliabilitas deployment antar server'
+      'Modern front-end architecture built with the Next.js App Router, React 19, and TypeScript',
+      'Distributed global state management with Zustand for efficient data flow and UI state handling',
+      'Automated asynchronous data fetching, caching, and REST API integration with TanStack Query',
+      'High-accuracy, camera-based attendance using the ZXing QR code scanner',
+      'Interactive content and interface design featuring GSAP animation, PDF page-flip effects with React PageFlip, and Canvas Confetti',
+      'Complex tabular data management in the administrative dashboard with TanStack Table',
+      'Serwist-powered Progressive Web App support for fast loading and reliable caching',
+      'Structured forms and strict schema validation with React Hook Form and Zod'
     ],
     stack: [
-      'Laravel',
-      'Inertia.js',
-      'React',
+      'Next.js 16',
+      'React 19',
       'TypeScript',
-      'MySQL',
-      'Tailwind CSS',
-      'Docker',
-      'FCM',
-      'WebSockets',
-      'Leaflet / OSM',
-      'Midtrans',
-      'Google OAuth'
+      'Tailwind CSS v4',
+      'Zustand',
+      'TanStack Query',
+      'TanStack Table',
+      'GSAP',
+      'ZXing QR Scanner',
+      'NextAuth.js',
+      'React PDF',
+      'React PageFlip',
+      'React Hook Form',
+      'Zod',
+      'Shadcn UI'
     ],
     highlights: [
-      'Inisiatif resmi atas penugasan Warek & Prodi Teknik Informatika',
-      'Mendukung komoditas sembako, pertanian, peternakan, perikanan, dan kerajinan',
-      'Sistem pembayaran digital instan dan pemetaan akurat level desa'
+      'The primary digital platform for FILKOM UB orientation, serving thousands of new students and committee members',
+      'Real-time, browser-based QR code scanning for rapid attendance verification',
+      'An immersive user experience with fluid GSAP animation and interactive PDF previews'
     ],
-    challenges: 'Dikerjakan dan diarsiteki secara mandiri dari nol hingga tahap produksi karena keterbatasan anggota tim.',
-    role: 'Full-Stack Engineer',
-    demoUrl: 'https://cimart.desa.id',
+    challenges: 'Integrating media and QR scanning libraries alongside complex PDF rendering in a Next.js and React 19 environment, while maintaining responsive GSAP animation across a wide range of student devices.',
+    role: 'Front-End Developer',
+    demoUrl: 'https://simaba-filkom.ub.ac.id',
     isPrivateRepo: true,
-    privateRepoReason: 'Repository privat karena hak cipta institusi & kerahasiaan data',
-    imageUrl: '/projects/CibendaMart.png',
+    privateRepoReason: 'Private repository due to institutional copyright and data confidentiality requirements',
+    imageUrl: '/projects/simaba.png',
     imageFit: 'cover',
     featured: true,
     metrics: [
-      { label: 'Engineering', value: 'Full-Stack Developer' },
-      { label: 'Architecture', value: 'Laravel Inertia' },
-      { label: 'Payment API', value: 'Midtrans Iris' }
+      { label: 'Framework', value: 'Next.js 16 (React 19)' },
+      { label: 'State & Query', value: 'Zustand & TanStack Query' },
+      { label: 'Features', value: 'QR Attendance & Assignments' }
     ]
   },
   {
-    id: 'villanakey',
-    title: 'villaNaKey',
-    subtitle: 'Aplikasi Mobile Booking & Manajemen Reservasi Villa Keluarga',
-    category: 'mobile',
-    summary: 'Aplikasi mobile booking khusus untuk mendukung operasional bisnis hospitality villa pribadi keluarga dengan sinkronisasi kalender real-time tanpa risiko double-booking.',
-    description: 'Dikembangkan sebagai proyek akhir kampus untuk mendigitalisasi pemesanan villa keluarga, mengeliminasi risiko double-booking, dan mempermudah pengecekan jadwal reservasi bagi pengelola dan tamu.',
+    id: 'equalilearn',
+    title: 'EqualiLearn',
+    subtitle: 'AI-Powered Inclusive Learning & Collaborative Study Platform',
+    category: 'frontend',
+    summary: 'An AI-powered inclusive learning platform featuring live transcription, PPT-to-audio conversion, interactive mind maps, and collaborative study rooms powered by WebSockets.',
+    description: 'An accessible educational web application designed to support inclusive learning for diverse learning needs. EqualiLearn converts presentation files into audio and interactive mind maps, provides real-time transcription to improve accessibility, and offers live collaborative study rooms for group discussion.',
     architecture: [
-      'Aplikasi mobile multi-platform dibangun dengan Flutter dan Dart SDK',
-      'Firebase Authentication untuk otentikasi aman pengelola dan tamu',
-      'Cloud Firestore NoSQL real-time database untuk sinkronisasi instan jadwal reservasi',
-      'Komponen custom calendar interaktif dengan highlight tanggal booking aktif'
+      'Modern front-end architecture built with the Next.js App Router, React 19, and TypeScript',
+      'Interactive node-based mind maps generated from AI-extracted presentation content with @xyflow/react',
+      'Real-time group chat and collaboration in study rooms through WebSocket integration',
+      'Live transcription and PPT-to-audio data flows managed through REST APIs and TanStack Query',
+      'Centralized global state management with Zustand for interface navigation and learning modules',
+      'Adaptive interfaces built with Tailwind CSS v4, Base UI, Shadcn UI, and subtle GSAP micro-interactions',
+      'Fast, consistent linting and formatting with Biome and Git hooks managed by Lefthook'
     ],
     stack: [
-      'Flutter',
-      'Dart',
-      'Firebase Auth',
-      'Cloud Firestore',
-      'Mobile Architecture'
-    ],
-    highlights: [
-      'Digunakan langsung pada operasional villa pribadi keluarga',
-      'Sinkronisasi status booking instan tanpa latency',
-      'Kalender interaktif visual untuk kemudahan reservasi tanggal'
-    ],
-    challenges: 'Proyek aplikasi mobile pertama; mempelajari Flutter dan reaktif state management dari nol bersama kelompok di bawah tenggat waktu akademik yang ketat.',
-    role: 'Mobile Developer & Technical Lead',
-    githubUrl: 'https://github.com/ryhndastra/villanakey',
-    isMobileApp: true,
-    demoStatusLabel: 'Aplikasi Mobile Native (Demo/APK on request)',
-    imageUrl: '/projects/villa.png',
-    imageFit: 'contain',
-    featured: true,
-    metrics: [
-      { label: 'Mobile Engine', value: 'Flutter & Dart' },
-      { label: 'Database Sync', value: 'Real-Time NoSQL' },
-      { label: 'State & Cloud', value: 'Firebase Suite' }
-    ]
-  },
-  {
-    id: 'kalorin-ai',
-    title: 'kalorinAi',
-    subtitle: 'Platform Web Nutrisi & Tracking Kalori Berbasis Computer Vision AI',
-    category: 'fullstack',
-    summary: 'Platform pelacak nutrisi cerdas dengan pengenalan citra piring makanan berbasis AI untuk menghitung kalori, makronutrien, serta rekomendasi harian.',
-    description: 'Capstone Project Dicoding CodingCamp 2026 Powered by DBS Foundation yang dikembangkan bersama tim 6 orang (2 Data Analyst, 2 AI Engineer, 2 Fullstack). Fitur mencakup kalkulator BMI, tracking asupan harian, streak, insight AI, dan rekomendasi menu.',
-    architecture: [
-      'Client web modern menggunakan React, Vite, dan Tailwind CSS v4',
-      'Database dan layer data menggunakan Supabase dan Prisma ORM',
-      'Sistem otentikasi aman menggunakan Firebase Auth',
-      'Pipeline computer vision TensorFlow/Keras di backend Python untuk mendeteksi porsi dan nilai gizi (kalori, protein, lemak, karbohidrat)',
-      'Mesin rekomendasi harian adaptif berdasarkan target kalori pengguna'
-    ],
-    stack: [
-      'React',
-      'Vite',
-      'Tailwind CSS v4',
+      'Next.js 16',
+      'React 19',
       'TypeScript',
-      'Supabase',
-      'Prisma ORM',
-      'Firebase Auth',
-      'TensorFlow',
-      'Python'
+      'Tailwind CSS v4',
+      'XYFlow (React Flow)',
+      'Zustand',
+      'TanStack Query',
+      'WebSockets',
+      'GSAP',
+      'Base UI',
+      'Shadcn UI',
+      'Biome',
+      'React Hook Form',
+      'Zod'
     ],
     highlights: [
-      'Capstone Project Dicoding CodingCamp 2026 Powered by DBS Foundation',
-      'Deteksi citra makanan otomatis untuk kalkulasi makronutrien instan',
-      'Sistem insight harian dan rekomendasi personal berbasis AI'
+      'Real-time transcription that supports inclusive and accessible learning',
+      'Automatic generation of interactive mind maps from presentation files using XYFlow',
+      'WebSocket-powered collaborative study rooms for real-time interaction and discussion'
     ],
-    challenges: 'Menggarap seluruh arsitektur web dan integrasi API secara mandiri di tengah jadwal padat antara perkuliahan semester aktif dan bootcamp.',
-    role: 'Lead Web Full-Stack Developer',
-    githubUrl: 'https://github.com/ryhndastra/kalorin-ai',
-    demoUrl: 'https://kalorin-ai.vercel.app',
-    imageUrl: '/projects/kalorinLogo.png',
-    imageFit: 'contain',
+    challenges: 'Building dynamic XYFlow mind-map visualizations from AI-processed content while precisely synchronizing live transcription state and WebSocket messages within a two-person front-end team.',
+    role: 'Front-End Developer',
+    githubUrl: 'https://github.com/jasonenkristo123/EqualiLearn',
+    isMobileApp: false,
+    demoStatusLabel: 'Native Mobile Application (Demo/APK available on request)',
+    imageUrl: '/projects/equalilearn.png',
+    imageFit: 'cover',
     featured: true,
     metrics: [
-      { label: 'Capstone Team', value: '6 Engineers' },
-      { label: 'AI Inference', value: 'TensorFlow CNN' },
-      { label: 'Web Platform', value: 'React & Vite' }
+      { label: 'Domain', value: 'AI EdTech & Accessibility' },
+      { label: 'Visualization', value: 'XYFlow Node Mindmap' },
+      { label: 'Real-time', value: 'WebSocket Collaboration' }
+    ]
+  },
+  {
+    id: 'simpanin',
+    title: 'SIMPANINID',
+    subtitle: 'Food Waste Tracking & Visual Analytics Platform',
+    category: 'frontend',
+    summary: 'A food waste tracking and management platform with a visual analytics dashboard designed to help users reduce unnecessary food waste.',
+    description: 'A web application for managing and monitoring food waste in support of more sustainable lifestyles. Developed by a four-person team, the platform enables users to record food inventory, track savings over time, and analyze accumulated waste and recurring trends through interactive charts.',
+    architecture: [
+      'Modern front-end architecture built with the Next.js App Router, React 19, and TypeScript',
+      'Interactive analytics dashboards built with Chart.js and react-chartjs-2 to visualize food waste data',
+      'Efficient centralized state management with Zustand for user filters and preferences',
+      'Optimized asynchronous data fetching and REST API state management with TanStack Query and Axios',
+      'Fluid, dynamic UI interactions combining GSAP (@gsap/react) and Framer Motion',
+      'Structured food waste entry forms validated with React Hook Form and Zod',
+      'Automated code quality and consistency through Husky-powered Git hooks, ESLint, and Prettier'
+    ],
+    stack: [
+      'Next.js 16',
+      'React 19',
+      'TypeScript',
+      'Tailwind CSS v4',
+      'Chart.js',
+      'react-chartjs-2',
+      'Zustand',
+      'TanStack Query',
+      'GSAP',
+      'Framer Motion',
+      'Shadcn UI',
+      'React Hook Form',
+      'Zod',
+      'Husky'
+    ],
+    highlights: [
+      'An interactive dashboard for visualizing food waste statistics',
+      'A responsive user experience enhanced by fluid GSAP and Framer Motion animation',
+      'Collaborative development by a four-person team using a disciplined Git hooks workflow'
+    ],
+    challenges: 'Presenting REST API analytics through intuitive, responsive charts while combining GSAP and Framer Motion without compromising interface performance.',
+    role: 'Front-End Developer',
+    githubUrl: 'https://github.com/jasonenkristo123/SIMPANINID',
+    demoUrl: 'https://simpaninid-alpha.vercel.app/',
+    imageUrl: '/projects/simpanin.png',
+    imageFit: 'cover',
+    featured: true,
+    metrics: [
+      { label: 'Domain', value: 'Food Waste Tracker' },
+      { label: 'Analytics', value: 'Chart.js Visuals' },
+      { label: 'Team Size', value: '4 Engineers' }
     ]
   }
 ];
 
 export const experienceData: ExperienceItem[] = [
   {
-    id: 'edu-widyatama',
-    period: '2023 - Sekarang',
-    role: 'S1 Teknik Informatika',
-    organization: 'Universitas Widyatama (Angkatan 2023)',
-    badge: 'Pendidikan Formal',
+    id: 'edu-brawijaya',
+    period: 'Aug 2025 - Present',
+    role: 'Bachelor of Information Technology',
+    organization: 'Universitas Brawijaya',
+    badge: 'Formal Education',
     category: 'education',
     description:
-      'Menempuh studi sarjana Teknik Informatika dengan pendalaman fundamental ilmu komputer, struktur data, algoritma, rekayasa perangkat lunak, dan mengambil penjurusan spesialisasi Database / Data Analyst.',
+      'Pursuing an undergraduate degree in the Faculty of Computer Science, with a strong foundation in software engineering, data structures, algorithms, and database design for modern application development.',
     highlights: [
-      'Penjurusan Database & Data Analyst',
-      'Pemodelan Data Relasional & Optimasi Query SQL',
-      'Fundamental Rekayasa Perangkat Lunak & Algoritma'
+      'Software Engineering & Web Development',
+      'Data Structures, Algorithms, & Object-Oriented Programming',
+      'Relational Database Design & Optimization'
     ],
-    tech: ['Database Systems', 'Data Analysis', 'SQL', 'Algorithms', 'Software Engineering', 'System Design']
+    tech: [
+      'Software Engineering',
+      'Data Structures',
+      'Algorithms',
+      'Database Systems',
+      'System Design',
+      'Web Development'
+    ]
   },
   {
-    id: 'exp-dicoding-dbs',
-    period: 'Feb 2026 - Jul 2026',
-    role: 'Fullstack Developer (Learning Path)',
-    organization: 'Dicoding CodingCamp 2026 Powered by DBS Foundation',
-    badge: 'Intensive Bootcamp',
-    category: 'bootcamp',
+    id: 'exp-bcc',
+    period: 'April 2026 - Present',
+    role: 'Front-End Developer & Lead of Starter Camp',
+    organization: 'Basic Computing Community (BCC)',
+    badge: 'Campus Organization',
+    category: 'Organization',
     description:
-      'Program beasiswa pelatihan intensif Fullstack Developer dari Dicoding dan DBS Foundation. Membangun arsitektur frontend web modern (React & Vite), integrasi API backend type-safe, otentikasi data, dan berkolaborasi dalam Capstone Project kalorinAI.',
+      'Contributing to modern web interface development within BCC\'s Front-End Department. Appointed Program Lead for Frontend Starter Camp, mentoring first-year students in the web development ecosystem while regularly participating in internal technical workshops on front-end best practices.',
     highlights: [
-      'Lulusan Jalur Fullstack Developer',
-      'Integrasi REST API, State Management & Cloud DB',
-      'Kolaborasi Tim Capstone Project kalorinAI'
+      'Program Lead for Frontend Starter Camp for First-Year Students',
+      'Intensive Development and Study of the Modern Front-End Ecosystem',
+      'Collaborative Projects and Internal Department Workshops'
     ],
-    tech: ['React', 'TypeScript', 'Node.js', 'Supabase', 'Prisma ORM', 'Tailwind CSS', 'REST API']
+    tech: [
+      'React',
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'JavaScript',
+      'HTML/CSS',
+      'Git',
+      'GSAP',
+      'Tanstack Query',
+      'Shadcn UI',
+      'Axios',
+      'Zustand',
+      'React Hook Form',
+      'Zod'
+    ]
   },
   {
-    id: 'exp-cimart-mbkm',
-    period: 'Jul 2026 - Sekarang',
-    role: 'Full-Stack Developer',
-    organization: 'Inisiatif MBKM / KKN Tematik & Capstone Kampus Desa Cibenda',
-    badge: 'MBKM / Capstone Kampus',
+    id: 'exp-simaba',
+    period: 'May 2026 - Present',
+    role: 'Front-End Developer',
+    organization: 'PKKMB & Startup Academy FILKOM UB 2026',
+    badge: 'Campus Committee',
     category: 'project',
     description:
-      'Inisiatif MBKM / KKN Tematik resmi dari kampus yang menjadi Capstone Project untuk digitalisasi komoditas ekonomi warga Desa Cibenda, Pangandaran. Dikerjakan secara mandiri dari perancangan arsitektur sistem, integrasi payment gateway Midtrans, notifikasi FCM, hingga deployment produksi.',
+      'Responsible for architecting and developing the interface for FILKOM UB\'s official student orientation platform, SIMABA, within the Publication, Information, and Technology (PIT) Division. Delivered QR code-based attendance, a student assignment portal, a committee administration dashboard, and interactive GSAP animation.',
     highlights: [
-      'Mandat Resmi Pimpinan Kampus & Perangkat Desa',
-      'Development Arsitektur End-to-End',
-      'Integrasi Payment Gateway Midtrans & WebSockets'
+      'SIMABA 2026 Publication, Information, and Technology (PIT) Division',
+      'QR Code Attendance System & Student Assignment Management Dashboard',
+      'Website Interface Development with GSAP & Next.js 16'
     ],
-    tech: ['Laravel', 'Inertia.js', 'React', 'MySQL', 'Docker', 'WebSockets', 'Midtrans', 'Leaflet']
+    tech: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'Zustand',
+      'GSAP',
+      'TanStack Query',
+      'ZXing QR Scanner',
+      'Docker'
+    ]
   },
-  {
-    id: 'exp-rework-cybersecurity',
-    period: 'Agu 2026 - Des 2026',
-    role: 'Cyber Security Trainee (Red Team Focus)',
-    organization: 'Cyber Security Bootcamp by Rework Academy',
-    badge: 'Cyber Security Bootcamp',
-    category: 'security',
-    description:
-      'Pelatihan intensif keamanan siber komprehensif mulai dari fundamental cybersecurity, vulnerability assessment, web application penetration testing (OWASP Top 10), network penetration testing, bug bounty hunting, hingga penyusunan security reporting profesional. Fokus mendalam pada Red Team (Offensive Security) dengan pemahaman komplementer Blue Team (Defensive) dan Purple Team.',
-    highlights: [
-      'Web Application & Network Penetration Testing',
-      'Metodologi Bug Bounty & Eksploitasi OWASP Top 10',
-      'Vulnerability Assessment & Security Reporting',
-      'Fokus Offensive Red Team dengan Pemahaman Blue/Purple Team'
-    ],
-    tech: ['Web App Pentesting', 'Network Security', 'OWASP Top 10', 'Bug Bounty', 'Red Teaming', 'Linux Security', 'Security Reporting']
-  }
 ];

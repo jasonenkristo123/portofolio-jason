@@ -72,7 +72,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
                 Tech Stack & Tools
               </h2>
               <p className="text-sm sm:text-base font-medium text-[#475569] mt-2 max-w-2xl leading-relaxed">
-                Teknologi dan tools yang saya gunakan untuk membangun aplikasi web dan mobile.
+                Technologies and tools I use to build modern web and mobile applications.
               </p>
             </div>
 
@@ -96,10 +96,10 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
         {/* architecture layer cards */}
         <div className="mt-8 sm:mt-10 space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] sm:text-xs font-mono font-bold text-[#64748b] uppercase tracking-wider pb-1 sm:pb-0">
-            <span>Daftar Kategori &amp; Layer</span>
+            <span>Architecture Categories &amp; Layers</span>
             <span className="text-[10px] sm:text-xs text-[#64748b]">
-              <span className="sm:hidden">Tap kartu atau icon untuk detail</span>
-              <span className="hidden sm:inline">Klik kartu atau icon untuk melihat detail</span>
+              <span className="sm:hidden">Tap a card or icon for details</span>
+              <span className="hidden sm:inline">Select a card or icon to view details</span>
             </span>
           </div>
 
@@ -110,7 +110,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
               stepNumber="01"
               title="Frontend & Web"
               subtitle="Client UI"
-              roleDescription="Pengembangan antarmuka web modern dan aplikasi mobile cross-platform."
+              roleDescription="Modern web interface and cross-platform mobile application development."
               techItems={clientTech}
               activeDomain={activeDomain}
               selectedTech={selectedTech}
@@ -125,7 +125,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
               stepNumber="02"
               title="Backend"
               subtitle="Server & API"
-              roleDescription="Pengembangan server, REST API, dan integrasi backend."
+              roleDescription="Server development, REST APIs, and backend integration."
               techItems={backendTech}
               activeDomain={activeDomain}
               selectedTech={selectedTech}
@@ -140,7 +140,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
               stepNumber="03"
               title="Database"
               subtitle="Data & Storage"
-              roleDescription="Pengelolaan data relasional dan database cloud real-time."
+              roleDescription="Relational data management and real-time cloud databases."
               techItems={databaseTech}
               activeDomain={activeDomain}
               selectedTech={selectedTech}
@@ -155,7 +155,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
               stepNumber="04"
               title="DevOps & Tools"
               subtitle="Environment"
-              roleDescription="Sistem operasi Linux, kontainer Docker, dan deployment."
+              roleDescription="Linux environments, Docker containers, and application deployment."
               techItems={devopsTech}
               activeDomain={activeDomain}
               selectedTech={selectedTech}

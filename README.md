@@ -1,20 +1,20 @@
-# Template Portfolio Pantai 🏖️🌊
+# Coastal Portfolio Template 🏖️🌊
 
-Template website portofolio interaktif bertema pesisir pantai dan neo-brutalisme modern. Dilengkapi dengan simulasi ombak 2D canvas, fisika gerak dinamis, karakter pantai interaktif, dan arsitektur kode React 19 + TypeScript + Vite yang rapi.
+An interactive portfolio website template combining a coastal theme with modern neo-brutalist design. It features a real-time 2D canvas ocean simulation, dynamic motion physics, interactive beach characters, and a clean React 19, TypeScript, and Vite architecture.
 
-Template ini sepenuhnya **open source (Lisensi MIT)** dan siap dipakai untuk portofolio pribadi Anda.
+The template is fully **open source under the MIT License** and ready to customize for a personal portfolio.
 
 ---
 
-## Fitur Utama
+## Key Features
 
-- **Fisika Air Canvas Real-Time**: Simulasi ombak laut, gelembung udara mengapung, ikan berenang, dan riak air interaktif saat diklik murni berbasis HTML5 2D Canvas (tanpa library WebGL berat).
-- **Karakter Pantai Interaktif**: Bebek karet yang bisa di-drag dan dilempar ke air, kepiting pantai, serta burung camar terbang dengan dialog jenaka yang saling terhubung.
-- **Showcase Proyek Flagship**: Tampilan kartu proyek interaktif lengkap dengan modal studi kasus dan metrik teknis.
-- **Visualisasi Tech Stack Pipeline**: Pipeline grafis interaktif untuk memamerkan tools dan alur teknologi yang dikuasai.
-- **Milestone Timeline**: Rekam jejak pengalaman dan pendidikan dengan progress bar vertikal yang terisi otomatis mengikuti posisi scroll.
-- **Kontak Bento Dock**: Terminal kontak interaktif dengan fitur 3D card flip untuk catatan developer.
-- **Desain Neo-Brutalist Coastal**: Perpaduan palet warna laut tropis, pasir pantai hangat, tipografi monospace tegas, dan drop-shadow solid.
+- **Real-Time Canvas Water Physics**: HTML5 2D Canvas-powered ocean waves, floating bubbles, swimming fish, and click-responsive ripples without a heavy WebGL dependency.
+- **Interactive Beach Characters**: A draggable rubber duck, beach crab, and flying seagull with playful, connected dialogue.
+- **Flagship Project Showcase**: Interactive project cards with detailed case-study modals and technical metrics.
+- **Technology Pipeline Visualization**: An interactive architecture pipeline for presenting tools, technologies, and engineering workflows.
+- **Milestone Timeline**: An experience and education timeline with a scroll-responsive vertical progress indicator.
+- **Contact Bento Dock**: An interactive contact panel featuring a 3D card flip and developer note.
+- **Coastal Neo-Brutalist Design**: A tropical ocean palette, warm sand tones, bold monospace typography, and solid drop shadows.
 
 ---
 
@@ -30,73 +30,75 @@ Template ini sepenuhnya **open source (Lisensi MIT)** dan siap dipakai untuk por
 
 ---
 
-## Cara Menggunakan Template Ini
+## Using This Template
 
-### 1. Clone Repository
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/ryhndastra/template-porto-pantai.git
 cd template-porto-pantai
 ```
 
-### 2. Install Dependensi
+### 2. Install Dependencies
 ```bash
 npm install
 ```
 
-### 3. Sesuaikan Data Anda
-Semua data teks, proyek, kontak, dan keahlian terpusat rapi dalam satu file data:
-- Buka file `src/data/portfolioData.ts`.
-- Ganti nama, bio, data pendidikan, kontak sosial media, dan riwayat pengalaman dengan data Anda sendiri.
-- Ganti avatar profil: taruh foto Anda di `public/` dan update `avatarUrl` di `src/data/portfolioData.ts`.
-- Ganti file CV: taruh file PDF resume Anda di `public/cv.pdf`.
+### 3. Customize Your Content
 
-### 4. Jalankan Development Server
+All portfolio copy, projects, contact details, and skills are centralized in one data file:
+
+- Open `src/data/portfolioData.ts`.
+- Replace the name, biography, education, social links, and experience history with your own information.
+- To replace the profile image, add your photo to `public/` and update `avatarUrl` in `src/data/portfolioData.ts`.
+- To replace the CV, add your PDF resume to `public/cv.pdf`.
+
+### 4. Start the Development Server
 ```bash
 npm run dev
 ```
-Buka browser di `http://localhost:5173`.
+Open `http://localhost:5173` in your browser.
 
-### 5. Build untuk Produksi
+### 5. Build for Production
 ```bash
 npm run build
 ```
-Hasil build siap deploy akan langsung berada di folder `dist/`.
+The deployable production build will be generated in `dist/`.
 
 ---
 
-## Struktur Folder
+## Project Structure
 
 ```text
 template-porto-pantai/
-├── public/              # Aset statis, ikon, avatar, dan file CV
+├── public/              # Static assets, icons, profile image, and CV
 ├── src/
-│   ├── components/      # Komponen antarmuka modular
-│   │   ├── contact/     # Section kontak, bento dock & ocean canvas
-│   │   ├── hero/        # Hero section, physics stage, karakter pantai
-│   │   ├── journey/     # Rekam jejak & timeline progress
-│   │   ├── navigation/  # Navbar floating
-│   │   ├── profile/     # Profil teknis & stage arsitektur
-│   │   ├── projects/    # Showcase proyek, dock filter, modal kasus
-│   │   ├── tech/        # Tech stack pipeline & dekorasi pantai
-│   │   └── ui/          # Komponen tombol taktil & notifikasi
-│   ├── data/            # Data terpusat (portfolioData.ts)
-│   ├── hooks/           # Custom hooks (Lenis scroll, card tilt, dll)
-│   ├── types/           # Definisi TypeScript
-│   ├── App.tsx          # Komponen utama halaman
-│   ├── main.tsx         # Entry point aplikasi
-│   └── index.css        # Konfigurasi Tailwind CSS v4
+│   ├── components/      # Modular interface components
+│   │   ├── contact/     # Contact section, bento dock, and ocean canvas
+│   │   ├── hero/        # Hero section, physics stage, and beach characters
+│   │   ├── journey/     # Experience history and progress timeline
+│   │   ├── navigation/  # Floating navigation bar
+│   │   ├── profile/     # Technical profile and architecture stage
+│   │   ├── projects/    # Project showcase, filters, and case-study modal
+│   │   ├── tech/        # Technology pipeline and beach decorations
+│   │   └── ui/          # Tactile buttons and notification components
+│   ├── data/            # Centralized portfolio data (portfolioData.ts)
+│   ├── hooks/           # Custom hooks for scrolling, card tilt, and more
+│   ├── types/           # TypeScript definitions
+│   ├── App.tsx          # Main page component
+│   ├── main.tsx         # Application entry point
+│   └── index.css        # Tailwind CSS v4 configuration
 ├── package.json
 └── vite.config.ts
 ```
 
 ---
 
-## Deploy ke Vercel / Netlify
+## Deploying to Vercel or Netlify
 
-Website ini adalah Single Page Application (SPA) murni berbasis Vite. Anda bisa langsung menautkan repository ini ke Vercel atau Netlify tanpa konfigurasi server tambahan.
+This website is a Vite-powered single-page application. Connect the repository directly to Vercel or Netlify without additional server configuration.
 
 ---
 
-## Lisensi
+## License
 
-Dirilis di bawah lisensi [MIT](LICENSE). Bebas digunakan, dimodifikasi, dan didistribusikan untuk keperluan pribadi maupun komersial. Dibuat dengan cinta oleh [Reyhand Astra](https://github.com/ryhndastra).
+Released under the [MIT License](LICENSE). You may use, modify, and distribute this template for personal or commercial projects. Originally created by [Reyhand Astra](https://github.com/ryhndastra).

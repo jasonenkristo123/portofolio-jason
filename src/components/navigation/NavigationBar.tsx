@@ -13,12 +13,12 @@ export const NavigationBar: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('about');
 
   const navItems = [
-    { label: 'Profil', id: 'about' },
-    { label: 'Studi Kasus', id: 'projects' },
+    { label: 'Profile', id: 'about' },
+    { label: 'Case Studies', id: 'projects' },
     { label: 'Tech Stack', id: 'stack' },
-    { label: 'Aktivitas', id: 'activity' },
+    { label: 'Activity', id: 'activity' },
     { label: 'Milestone', id: 'journey' },
-    { label: 'Kontak', id: 'contact' },
+    { label: 'Contact', id: 'contact' },
   ];
 
   const tabRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
@@ -150,12 +150,12 @@ export const NavigationBar: React.FC = () => {
             type="button"
             onClick={() => copy(profileData.contact.email)}
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 hover:bg-white/25 border border-white/30 hover:border-[#fff9d4] text-xs font-mono text-white shadow-md transition-all backdrop-blur-xl cursor-pointer group active:scale-95"
-            title="Salin email"
+            title="Copy email address"
           >
             {copied ? (
               <>
                 <Check className="w-3.5 h-3.5 text-[#fff9d4]" />
-                <span className="text-[#fff9d4] font-bold">Tersalin!</span>
+                <span className="text-[#fff9d4] font-bold">Copied!</span>
               </>
             ) : (
               <>
@@ -171,7 +171,7 @@ export const NavigationBar: React.FC = () => {
             type="button"
             onClick={() => copy(profileData.contact.email)}
             className="p-2.5 rounded-xl bg-white/15 border border-white/30 text-white active:scale-95 transition-transform backdrop-blur-md shadow-sm"
-            aria-label="Salin email"
+            aria-label="Copy email address"
           >
             {copied ? <Check className="w-4 h-4 text-[#fff9d4]" /> : <Copy className="w-4 h-4 text-[#fff9d4]" />}
           </button>
@@ -179,7 +179,7 @@ export const NavigationBar: React.FC = () => {
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2.5 rounded-xl bg-white/15 border border-white/30 text-white active:scale-95 transition-transform backdrop-blur-md shadow-sm"
-            aria-label="Buka menu"
+            aria-label="Open menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>

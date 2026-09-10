@@ -257,7 +257,7 @@ export const RebuildConstructionOverlay: React.FC<RebuildConstructionOverlayProp
               </AnimatePresence>
 
               <h3 className="text-lg sm:text-3xl font-black text-[#0f172a] tracking-tight px-2">
-                Sedang Membangun Ulang Pantai...
+                Rebuilding the Beach...
               </h3>
             </div>
 

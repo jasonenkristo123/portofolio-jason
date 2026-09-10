@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layers, Globe, Smartphone, Server, Terminal, Lock } from 'lucide-react';
+import { Layers, Globe, Server, Terminal, Lock } from 'lucide-react';
 
-export type FlowDomainId = 'all' | 'web' | 'mobile' | 'backend' | 'devops' | 'ai/ml';
+export type FlowDomainId = 'all' | 'web' | 'mobile' | 'backend' | 'devops' | 'ai/ml' | 'cybersecurity';
 
 interface PipelineFlowPresetsProps {
   activeDomain: FlowDomainId;
@@ -21,9 +21,9 @@ export const PipelineFlowPresets: React.FC<PipelineFlowPresetsProps> = ({
   }[] = [
     {
       id: 'all',
-      label: 'Semua Stack',
+      label: 'All Technologies',
       icon: Layers,
-      tag: 'Semua'
+      tag: 'All'
     },
     {
       id: 'web',
@@ -56,10 +56,10 @@ export const PipelineFlowPresets: React.FC<PipelineFlowPresetsProps> = ({
     <div className="space-y-2.5">
       <div className="flex items-center justify-between">
         <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0369a1]">
-          Kategori
+          Categories
         </span>
         <span className="text-[11px] font-mono text-[#64748b]">
-          Pilih kategori stack
+          Select a technology category
         </span>
       </div>
 
@@ -73,7 +73,7 @@ export const PipelineFlowPresets: React.FC<PipelineFlowPresetsProps> = ({
             return (
               <div
                 key={domain.id}
-                title="Modul Cyber Security sedang dalam tahap persiapan"
+                title="This cybersecurity module is currently in development"
                 className="p-3 rounded-2xl border-2 border-dashed border-[#94a3b8] bg-[#f1f5f9]/70 text-left opacity-50 cursor-not-allowed select-none flex flex-col justify-between"
               >
                 <div className="flex items-center justify-between">
