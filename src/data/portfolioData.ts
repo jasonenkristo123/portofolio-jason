@@ -16,9 +16,9 @@ export const profileData: ProfileData = {
     'Reactive Interfaces'
   ],
   contact: {
-    email: 'ryhndastra@gmail.com',
-    github: 'https://github.com/ryhndastra',
-    linkedin: 'https://linkedin.com/in/reyhand-astra',
+    email: 'jasonenkristo@gmail.com',
+    github: 'https://github.com/jasonenkristo123',
+    linkedin: 'https://linkedin.com/in/jasonenkristo',
     location: 'Indonesia'
   }
 };
@@ -54,16 +54,6 @@ export const techStackData: TechItem[] = [
     roleTag: 'App Framework',
     usageContext: 'Server-side rendering, static generation, and edge routing',
     projectLinks: ['cimart']
-  },
-  {
-    name: 'Flutter',
-    category: 'mobile',
-    layer: 'client',
-    iconKey: 'flutter',
-    color: '#0284c7',
-    roleTag: 'Native Mobile',
-    usageContext: 'Cross-platform native mobile apps for iOS and Android with 60fps reactive UI',
-    projectLinks: ['villanakey']
   },
   {
     name: 'Tailwind CSS v4',
@@ -108,7 +98,6 @@ export const techStackData: TechItem[] = [
     projectLinks: ['kalorin-ai']
   },
 
-  // database and cloud persistence layer
   {
     name: 'PostgreSQL',
     category: 'backend',
@@ -138,16 +127,6 @@ export const techStackData: TechItem[] = [
     roleTag: 'Transactional DB',
     usageContext: 'E-commerce relational database schemas, ACID transactions, and optimized indexing',
     projectLinks: ['cimart']
-  },
-  {
-    name: 'Firebase',
-    category: 'backend',
-    layer: 'database',
-    iconKey: 'firebase',
-    color: '#f59e0b',
-    roleTag: 'NoSQL & Real-Time Sync',
-    usageContext: 'Cloud Firestore real-time calendar syncing, FCM push notifications, and Auth',
-    projectLinks: ['villanakey', 'cimart']
   },
   {
     name: 'Prisma ORM',
