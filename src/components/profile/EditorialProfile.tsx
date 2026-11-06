@@ -1,44 +1,41 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, type Variants } from 'framer-motion';
-import { FloodWaveOverlay } from './FloodWaveOverlay';
+import React, { lazy, Suspense, useState, useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import { ProfileDuneBackground } from './ProfileDuneBackground';
 import { ProfilePhotoCard } from './ProfilePhotoCard';
 import { ArchitectureStage } from './ArchitectureStage';
 import { FloodActionButton } from './FloodActionButton';
-import { RebuildConstructionOverlay } from './RebuildConstructionOverlay';
+import { useInViewport, usePrefersReducedMotion } from '../../hooks/useViewportActivity';
+
+const FloodWaveOverlay = lazy(() =>
+  import('./FloodWaveOverlay').then((m) => ({ default: m.FloodWaveOverlay }))
+);
+const RebuildConstructionOverlay = lazy(() =>
+  import('./RebuildConstructionOverlay').then((m) => ({ default: m.RebuildConstructionOverlay }))
+);
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.14,
-      delayChildren: 0.05
+      staggerChildren: 0.1,
+      delayChildren: 0.04
     }
   }
 };
 
-const perspectiveCardVariants: Variants = {
+// GPU-only opacity + translateY reveal (removed animated CSS blur() & 3D rotations that caused severe scroll jank)
+const cardRevealVariants: Variants = {
   hidden: {
     opacity: 0,
-    rotateX: 18,
-    rotateY: -6,
-    scale: 0.91,
-    y: 45,
-    filter: 'blur(5px)'
+    y: 28
   },
   visible: {
     opacity: 1,
-    rotateX: 0,
-    rotateY: 0,
-    scale: 1,
     y: 0,
-    filter: 'blur(0px)',
     transition: {
-      type: 'spring' as const,
-      stiffness: 170,
-      damping: 20,
-      mass: 0.85
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1]
     }
   }
 };
@@ -46,27 +43,23 @@ const perspectiveCardVariants: Variants = {
 const headerRevealVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 35,
-    rotateX: 12,
-    filter: 'blur(4px)'
+    y: 22
   },
   visible: {
     opacity: 1,
     y: 0,
-    rotateX: 0,
-    filter: 'blur(0px)',
     transition: {
-      type: 'spring' as const,
-      stiffness: 160,
-      damping: 18
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1]
     }
   }
 };
 
 export const EditorialProfile: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const isInView = useInViewport(sectionRef, '100px');
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-  // Flood & Rebuild State Machine
   const [floodState, setFloodState] = useState<'pristine' | 'flooding' | 'flooded' | 'rebuilding'>('pristine');
   const [rebuildProgress, setRebuildProgress] = useState<number>(0);
 
@@ -75,14 +68,8 @@ export const EditorialProfile: React.FC = () => {
     offset: ['start end', 'end start']
   });
 
-  const smoothScroll = useSpring(scrollYProgress, {
-    stiffness: 70,
-    damping: 20,
-    restDelta: 0.001
-  });
-
-  const scrollParallaxLeft = useTransform(smoothScroll, [0, 1], [30, -25]);
-  const scrollParallaxRight = useTransform(smoothScroll, [0, 1], [50, -35]);
+  const scrollParallaxLeft = useTransform(scrollYProgress, [0, 1], [18, -16]);
+  const scrollParallaxRight = useTransform(scrollYProgress, [0, 1], [28, -22]);
 
   const handleTriggerFlood = () => {
     if (floodState !== 'pristine') return;
@@ -94,6 +81,7 @@ export const EditorialProfile: React.FC = () => {
 
   const handleTriggerRebuild = () => {
     if (floodState !== 'flooded') return;
+    setRebuildProgress(0);
     setFloodState('rebuilding');
   };
 
@@ -101,9 +89,8 @@ export const EditorialProfile: React.FC = () => {
     if (floodState !== 'rebuilding') return;
 
     let currentVal = 0;
-    setRebuildProgress(0);
 
-    const stepMs = 40;
+    const stepMs = 100;
     const totalDurationMs = 2000;
     const stepIncrement = 100 / (totalDurationMs / stepMs);
 
@@ -115,7 +102,7 @@ export const EditorialProfile: React.FC = () => {
         setTimeout(() => {
           setFloodState('pristine');
           setRebuildProgress(0);
-        }, 300);
+        }, 280);
       } else {
         setRebuildProgress(Math.floor(currentVal));
       }
@@ -131,23 +118,31 @@ export const EditorialProfile: React.FC = () => {
       id="about"
       ref={sectionRef}
       className="relative pt-24 pb-32 sm:pt-28 sm:pb-44 bg-[#fff9d4] overflow-hidden select-none"
+      style={{ contain: 'layout paint' }}
     >
-      <RebuildConstructionOverlay
-        isRebuilding={floodState === 'rebuilding'}
-        progress={rebuildProgress}
-      />
+      {floodState === 'rebuilding' && (
+        <Suspense fallback={null}>
+          <RebuildConstructionOverlay
+            isRebuilding
+            progress={rebuildProgress}
+          />
+        </Suspense>
+      )}
 
-      <FloodWaveOverlay isFlooding={floodState === 'flooding'} />
+      {floodState === 'flooding' && (
+        <Suspense fallback={null}>
+          <FloodWaveOverlay isFlooding />
+        </Suspense>
+      )}
 
-      <ProfileDuneBackground isFlooded={isFlooded} />
+      <ProfileDuneBackground isFlooded={isFlooded} isActive={isInView} />
 
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.18 }}
+        viewport={{ once: true, amount: 0.15 }}
         className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8"
-        style={{ transformStyle: 'preserve-3d' }}
       >
         {/* Editorial Section Header & Flood Action Controls */}
         <motion.div
@@ -180,17 +175,17 @@ export const EditorialProfile: React.FC = () => {
         {/* Interactive Stage Grid */}
         <div className="mt-12 sm:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           <motion.div
-            variants={perspectiveCardVariants}
-            style={{ y: scrollParallaxLeft }}
-            className="lg:col-span-5 relative z-10"
+            variants={cardRevealVariants}
+            style={prefersReducedMotion ? undefined : { y: scrollParallaxLeft }}
+            className="lg:col-span-5 relative z-10 will-change-transform"
           >
             <ProfilePhotoCard isFlooded={isFlooded} />
           </motion.div>
 
           <motion.div
-            variants={perspectiveCardVariants}
-            style={{ y: scrollParallaxRight }}
-            className="lg:col-span-7 relative z-10"
+            variants={cardRevealVariants}
+            style={prefersReducedMotion ? undefined : { y: scrollParallaxRight }}
+            className="lg:col-span-7 relative z-10 will-change-transform"
           >
             <ArchitectureStage isFlooded={isFlooded} />
           </motion.div>

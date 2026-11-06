@@ -1,9 +1,14 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
-export const TechBeachDecorations: React.FC = () => {
+interface TechBeachDecorationsProps {
+  isActive?: boolean;
+}
+
+export const TechBeachDecorations: React.FC<TechBeachDecorationsProps> = ({ isActive = true }) => {
+  const pausedClass = isActive ? '' : 'anim-paused';
+
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0">
+    <div className={`absolute inset-0 pointer-events-none overflow-hidden select-none z-0 ${pausedClass}`}>
       <div className="absolute inset-0 w-full h-full">
         <svg
           viewBox="0 0 1440 900"
@@ -58,12 +63,8 @@ export const TechBeachDecorations: React.FC = () => {
         />
       </svg>
 
-      <motion.div
-        animate={{ y: [0, -5, 0], rotate: [-4, 4, -4] }}
-        transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
-        className="absolute top-16 right-10 sm:right-28 opacity-90"
-      >
-        <svg width="48" height="48" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+      <div className="absolute top-16 right-10 sm:right-28 opacity-90 anim-gentle-bob">
+        <svg width="48" height="48" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
           {/* boat hull */}
           <polygon points="6,34 44,34 38,44 12,44" fill="#ef4444" stroke="#0f172a" strokeWidth="2" strokeLinejoin="round" />
           {/* main sail */}
@@ -73,14 +74,10 @@ export const TechBeachDecorations: React.FC = () => {
           {/* mast */}
           <line x1="22" y1="4" x2="22" y2="34" stroke="#0f172a" strokeWidth="2" />
         </svg>
-      </motion.div>
+      </div>
 
-      <motion.div
-        animate={{ rotate: [-2, 2, -2] }}
-        transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
-        className="absolute top-14 left-6 sm:left-16 opacity-85 pointer-events-none"
-      >
-        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+      <div className="absolute top-14 left-6 sm:left-16 opacity-85 pointer-events-none anim-gentle-sway">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           {/* umbrella canopy */}
           <path d="M6 26 C6 10 54 10 54 26 Z" fill="#fde047" stroke="#0f172a" strokeWidth="2" />
           {/* canopy stripes */}
@@ -91,10 +88,10 @@ export const TechBeachDecorations: React.FC = () => {
           {/* sand mound base */}
           <ellipse cx="30" cy="52" rx="14" ry="4" fill="#ebdcae" stroke="#0f172a" strokeWidth="1.5" />
         </svg>
-      </motion.div>
+      </div>
 
       <div className="absolute top-1/2 left-6 sm:left-14 opacity-80">
-        <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+        <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M20 4 C30 4 36 12 36 22 C36 32 28 36 20 36 C10 36 4 28 4 20 C4 12 10 8 18 8 C24 8 28 12 28 18 C28 22 24 26 20 26 C16 26 14 22 14 19 C14 16 16 15 18 15"
             stroke="#0f172a"
@@ -108,7 +105,7 @@ export const TechBeachDecorations: React.FC = () => {
 
       {/* wooden pier post with mooring rope */}
       <div className="absolute bottom-12 right-6 sm:right-20 opacity-85 pointer-events-none">
-        <svg width="65" height="55" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+        <svg width="65" height="55" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           {/* sand mound */}
           <ellipse cx="35" cy="52" rx="28" ry="7" fill="#ebdcae" stroke="#0f172a" strokeWidth="1.5" />
           {/* primary wooden post */}

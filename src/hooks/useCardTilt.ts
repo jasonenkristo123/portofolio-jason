@@ -1,48 +1,78 @@
-import { useState, useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 
 export function useCardTilt(maxRotation: number = 7) {
-  const [rotation, setRotation] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState<boolean>(false);
   const cardRef = useRef<HTMLDivElement | null>(null);
+  const rectRef = useRef<DOMRect | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const enabledRef = useRef<boolean>(true);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const isCoarse = window.matchMedia?.('(pointer: coarse)').matches ?? false;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    enabledRef.current = !isCoarse && !reduced;
 
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -maxRotation;
-    const rotateY = ((x - centerX) / centerX) * maxRotation;
-
-    setRotation({ x: rotateX, y: rotateY });
-  }, [maxRotation]);
-
-  const handleMouseEnter = useCallback(() => {
-    setIsHovered(true);
+    return () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, []);
 
+  const handleMouseEnter = useCallback(() => {
+    if (!enabledRef.current || !cardRef.current) return;
+    rectRef.current = cardRef.current.getBoundingClientRect();
+    cardRef.current.style.transition = 'transform 0.1s ease-out';
+    cardRef.current.style.willChange = 'transform';
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!enabledRef.current || !cardRef.current) return;
+      const rect = rectRef.current || cardRef.current.getBoundingClientRect();
+      rectRef.current = rect;
+
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+
+      if (rafRef.current !== null) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        if (!cardRef.current) return;
+
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+        const centerX = rect.width / 2 || 1;
+        const centerY = rect.height / 2 || 1;
+
+        const rotateX = ((y - centerY) / centerY) * -maxRotation;
+        const rotateY = ((x - centerX) / centerX) * maxRotation;
+
+        cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+      });
+    },
+    [maxRotation]
+  );
+
   const handleMouseLeave = useCallback(() => {
-    setIsHovered(false);
-    setRotation({ x: 0, y: 0 });
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    rectRef.current = null;
+    if (!cardRef.current) return;
+    cardRef.current.style.transition = 'transform 0.45s ease-out';
+    cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    cardRef.current.style.willChange = 'auto';
   }, []);
 
   return {
     cardRef,
-    rotation,
-    isHovered,
     tiltProps: {
       ref: cardRef,
       onMouseMove: handleMouseMove,
       onMouseEnter: handleMouseEnter,
-      onMouseLeave: handleMouseLeave,
-      style: {
-        transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
-        transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.5s ease-out'
-      }
+      onMouseLeave: handleMouseLeave
     }
   };
 }

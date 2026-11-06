@@ -227,7 +227,7 @@ export const projectsData: Project[] = [
     demoUrl: 'https://simaba-filkom.ub.ac.id',
     isPrivateRepo: true,
     privateRepoReason: 'Private repository due to institutional copyright and data confidentiality requirements',
-    imageUrl: '/projects/simaba.png',
+    imageUrl: '/projects/simaba.webp',
     imageFit: 'cover',
     featured: true,
     metrics: [
@@ -278,7 +278,7 @@ export const projectsData: Project[] = [
     githubUrl: 'https://github.com/jasonenkristo123/EqualiLearn',
     isMobileApp: false,
     demoStatusLabel: 'Native Mobile Application (Demo/APK available on request)',
-    imageUrl: '/projects/equalilearn.png',
+    imageUrl: '/projects/equalilearn.webp',
     imageFit: 'cover',
     featured: true,
     metrics: [
@@ -328,7 +328,7 @@ export const projectsData: Project[] = [
     role: 'Front-End Developer',
     githubUrl: 'https://github.com/jasonenkristo123/SIMPANINID',
     demoUrl: 'https://simpaninid-alpha.vercel.app/',
-    imageUrl: '/projects/simpanin.png',
+    imageUrl: '/projects/simpanin.webp',
     imageFit: 'cover',
     featured: true,
     metrics: [

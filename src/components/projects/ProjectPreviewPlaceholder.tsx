@@ -43,6 +43,8 @@ export const ProjectPreviewPlaceholder: React.FC<ProjectPreviewPlaceholderProps>
           <img
             src={project.imageUrl}
             alt={project.title}
+            loading="lazy"
+            decoding="async"
             onError={() => setImageError(true)}
             className={`w-full h-full ${
               project.imageFit === 'contain' || isMobile
@@ -51,7 +53,6 @@ export const ProjectPreviewPlaceholder: React.FC<ProjectPreviewPlaceholderProps>
             } transition-transform duration-500 group-hover/preview:scale-[1.02]`}
           />
         ) : (
-          // fallback placeholder
           <div className="flex flex-col items-center justify-center p-6 text-center space-y-3">
             <div className="p-4 rounded-2xl bg-[#e0f2fe] border-2 border-[#0f172a] text-[#0284c7] shadow-[3px_3px_0px_#0f172a] group-hover/preview:scale-110 transition-transform">
               <ImageIcon className="w-8 h-8" />

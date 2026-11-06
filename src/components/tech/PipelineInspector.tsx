@@ -9,48 +9,10 @@ import {
   Terminal,
   Activity
 } from 'lucide-react';
-import {
-  SiReact,
-  SiNextdotjs,
-  SiTypescript,
-  SiJavascript,
-  SiTailwindcss,
-  SiFlutter,
-  SiLaravel,
-  SiNodedotjs,
-  SiMysql,
-  SiPostgresql,
-  SiSupabase,
-  SiFirebase,
-  SiPrisma,
-  SiDocker,
-  SiLinux,
-  SiGit,
-  SiVercel
-} from '@icons-pack/react-simple-icons';
 import type { TechItem, TechLayer } from '../../types/portfolio';
 import { projectsData } from '../../data/portfolioData';
 import type { FlowDomainId } from './PipelineFlowPresets';
-
-const iconMap: Record<string, React.FC<{ size?: number; color?: string; className?: string }>> = {
-  react: SiReact,
-  nextdotjs: SiNextdotjs,
-  typescript: SiTypescript,
-  javascript: SiJavascript,
-  tailwindcss: SiTailwindcss,
-  flutter: SiFlutter,
-  laravel: SiLaravel,
-  nodejs: SiNodedotjs,
-  mysql: SiMysql,
-  postgresql: SiPostgresql,
-  supabase: SiSupabase,
-  firebase: SiFirebase,
-  prisma: SiPrisma,
-  docker: SiDocker,
-  linux: SiLinux,
-  git: SiGit,
-  vercel: SiVercel
-};
+import { techIconMap } from './techIcons';
 
 interface PipelineInspectorProps {
   selectedTech: TechItem | null;
@@ -221,7 +183,7 @@ export const PipelineInspector: React.FC<PipelineInspectorProps> = ({
 
   // specific technology inspection view
   if (selectedTech) {
-    const Icon = iconMap[selectedTech.iconKey];
+    const Icon = techIconMap[selectedTech.iconKey];
     const relatedProjects = projectsData.filter((p) =>
       selectedTech.projectLinks?.includes(p.id)
     );

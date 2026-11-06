@@ -16,21 +16,23 @@ interface FilteredProjectDockProps {
   selectedCategory: ProjectCategory;
   onSelectCategory: (category: ProjectCategory) => void;
   onSelectProject: (project: Project) => void;
+  isActive?: boolean;
 }
 
 export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
   projects,
   selectedCategory,
   onSelectCategory,
-  onSelectProject
+  onSelectProject,
+  isActive = true
 }) => {
   const [activeProjectId, setActiveProjectId] = useState<string>(projects[0]?.id || 'cimart');
 
   const categories: { id: ProjectCategory; label: string; count: number }[] = [
     { id: 'all', label: 'All Projects', count: projects.length },
     {
-      id: "frontend",
-      label: "Front-End Web",
+      id: 'frontend',
+      label: 'Front-End Web',
       count: projects.filter((p) => p.category === 'frontend').length
     },
     {
@@ -42,7 +44,7 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
       id: 'mobile',
       label: 'Mobile Flutter',
       count: projects.filter((p) => p.category === 'mobile').length
-    },
+    }
   ];
 
   const filteredProjects =
@@ -50,14 +52,13 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
       ? projects
       : projects.filter((p) => p.category === selectedCategory);
 
-  // synchronize currently active project selection
   const activeProject =
     filteredProjects.find((p) => p.id === activeProjectId) || filteredProjects[0] || projects[0];
 
   return (
     <div className="absolute inset-0 w-full h-full flex flex-col justify-start sm:justify-between overflow-hidden select-none">
       {/* ocean background */}
-      <AnimatedOceanSlideBackground depthLevel={4} />
+      <AnimatedOceanSlideBackground depthLevel={4} isActive={isActive} />
 
       {/* category and project filter navigation */}
       <div className="relative z-10 max-w-7xl mx-auto w-full pt-20 sm:pt-24 px-4 sm:px-12 flex flex-col gap-2 sm:gap-3 shrink-0">
@@ -66,7 +67,7 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
             <span className="text-[10px] sm:text-xs font-mono font-black uppercase tracking-wider text-[#0f172a] bg-[#fde047] px-2 py-0.5 sm:px-3 sm:py-0.5 rounded-lg border-2 border-[#0f172a] shadow-[2px_2px_0px_#0f172a] inline-block mb-1">
               04 // PORTFOLIO INDEX
             </span>
-            <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] sm:drop-shadow-none">
+            <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight [text-shadow:0_2px_4px_rgba(0,0,0,0.45)] sm:[text-shadow:none]">
               Explore Projects &amp; Engineering Outcomes
             </h3>
           </div>
@@ -147,11 +148,10 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
             const isSelected = activeProject.id === project.id;
 
             return (
-              <motion.div
+              <div
                 key={project.id}
-                whileHover={{ x: 4 }}
                 onClick={() => setActiveProjectId(project.id)}
-                className={`p-3 sm:p-3.5 rounded-[20px] border-2 border-[#0f172a] cursor-pointer transition-all duration-200 ${
+                className={`p-3 sm:p-3.5 rounded-[20px] border-2 border-[#0f172a] cursor-pointer transition-transform duration-150 hover:translate-x-1 ${
                   isSelected
                     ? 'bg-[#fde047] shadow-[4px_4px_0px_#0f172a] -translate-y-0.5'
                     : 'bg-[#fffdf5]/95 hover:bg-[#fff9d4] shadow-[2px_2px_0px_#0f172a]'
@@ -200,7 +200,7 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
                     <ChevronRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -213,10 +213,9 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.18 }}
+              transition={{ duration: 0.16 }}
               className="p-3.5 sm:p-5 rounded-2xl sm:rounded-[24px] bg-[#fffdf5] border-2 border-[#0f172a] shadow-[4px_4px_0px_#0f172a] sm:shadow-[6px_6px_0px_#0f172a] flex flex-col justify-between space-y-2.5 sm:space-y-3"
             >
-              {/* project preview frame */}
               <div className="space-y-2 sm:space-y-2">
                 <ProjectPreviewPlaceholder
                   project={activeProject}
@@ -224,7 +223,6 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
                   className="h-[210px] min-[400px]:h-[235px] sm:h-auto sm:aspect-[16/9] sm:max-h-[220px] lg:max-h-none w-full"
                 />
 
-                {/* project titles with generous breathing room */}
                 <div className="pt-2 sm:pt-2.5">
                   <div className="flex items-center justify-between gap-2">
                     <h4 className="text-base sm:text-xl font-black text-[#0f172a]">
@@ -244,7 +242,6 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
                 </p>
               </div>
 
-              {/* performance (desktop) */}
               <div className="hidden sm:grid grid-cols-3 gap-1.5 sm:gap-2">
                 {activeProject.metrics.map((m, mIdx) => (
                   <div
@@ -261,7 +258,6 @@ export const FilteredProjectDock: React.FC<FilteredProjectDockProps> = ({
                 ))}
               </div>
 
-              {/* case study modal button */}
               <div className="pt-1.5 sm:pt-2 border-t border-[#e2d3b3] flex items-center justify-between gap-2 sm:gap-3">
                 <div className="hidden sm:flex items-center gap-1.5 flex-wrap">
                   {activeProject.stack.slice(0, 4).map((tech) => (

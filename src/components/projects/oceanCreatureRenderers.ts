@@ -186,21 +186,25 @@ export function drawAnglerFish(
   ctx.fill();
   ctx.stroke();
 
+  const lureY = -32 + Math.sin(time * 3) * 4;
+
   // lure stalk
   ctx.beginPath();
   ctx.moveTo(10, -22);
-  ctx.quadraticCurveTo(24, -48, 38, -32 + Math.sin(time * 3) * 4);
+  ctx.quadraticCurveTo(24, -48, 38, lureY);
   ctx.stroke();
 
-  // glowing lure bulb
-  const glow = 6 + Math.sin(time * 6) * 3;
-  ctx.fillStyle = '#fde047';
-  ctx.shadowColor = '#fde047';
-  ctx.shadowBlur = 16;
+  // glowing lure bulb (fast layered alpha halo instead of expensive ctx.shadowBlur)
+  const glow = 6 + Math.sin(time * 6) * 2.5;
+  ctx.fillStyle = 'rgba(253, 224, 71, 0.25)';
   ctx.beginPath();
-  ctx.arc(38, -32 + Math.sin(time * 3) * 4, glow, 0, Math.PI * 2);
+  ctx.arc(38, lureY, glow + 8, 0, Math.PI * 2);
   ctx.fill();
-  ctx.shadowBlur = 0;
+
+  ctx.fillStyle = '#fde047';
+  ctx.beginPath();
+  ctx.arc(38, lureY, glow, 0, Math.PI * 2);
+  ctx.fill();
 
   // sharp teeth
   ctx.fillStyle = '#ffffff';
@@ -265,8 +269,13 @@ export function drawScubaDiver(
   // bubbles from regulator
   ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
   ctx.beginPath();
-  ctx.arc(24 + Math.sin(time * 3) * 3, -10 - ((time * 20) % 30), 3, 0, Math.PI * 2);
-  ctx.arc(28 + Math.cos(time * 3) * 4, -20 - ((time * 24) % 35), 4.5, 0, Math.PI * 2);
+  const b1x = 24 + Math.sin(time * 3) * 3;
+  const b1y = -10 - ((time * 20) % 30);
+  const b2x = 28 + Math.cos(time * 3) * 4;
+  const b2y = -20 - ((time * 24) % 35);
+  ctx.arc(b1x, b1y, 3, 0, Math.PI * 2);
+  ctx.moveTo(b2x + 4.5, b2y);
+  ctx.arc(b2x, b2y, 4.5, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.restore();
@@ -324,12 +333,14 @@ export function drawCartoonCrab(
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
   ctx.arc(-8, -16, 6, 0, Math.PI * 2);
+  ctx.moveTo(14, -16);
   ctx.arc(8, -16, 6, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
   ctx.fillStyle = '#0f172a';
   ctx.beginPath();
   ctx.arc(-7, -16, 3, 0, Math.PI * 2);
+  ctx.moveTo(10, -16);
   ctx.arc(7, -16, 3, 0, Math.PI * 2);
   ctx.fill();
 
@@ -346,7 +357,7 @@ export function renderCreaturesByDepth(
   waterMaxY: number
 ): void {
   if (depthLevel === 1) {
-    const fish1X = (time * 70) % (width + 160) - 80;
+    const fish1X = ((time * 70) % (width + 160)) - 80;
     const fish1Y = waterMinY + 60;
     drawClownFish(ctx, time, fish1X, fish1Y, 15);
 
@@ -354,11 +365,11 @@ export function renderCreaturesByDepth(
     const fish2Y = waterMinY + 140;
     drawClownFish(ctx, time, fish2X, fish2Y, 12, true);
 
-    const diverX = (time * 40 + width * 0.4) % (width + 200) - 100;
+    const diverX = ((time * 40 + width * 0.4) % (width + 200)) - 100;
     const diverY = waterMinY + 90;
     drawScubaDiver(ctx, time, diverX, diverY);
   } else if (depthLevel === 2) {
-    const mantaX = (time * 55) % (width + 240) - 120;
+    const mantaX = ((time * 55) % (width + 240)) - 120;
     const mantaY = height * 0.48;
     drawMantaRay(ctx, time, mantaX, mantaY);
 
@@ -366,7 +377,7 @@ export function renderCreaturesByDepth(
     const fishY = height * 0.25;
     drawClownFish(ctx, time, fishX, fishY, 16, true);
   } else if (depthLevel === 3) {
-    const sharkX = (time * 85) % (width + 300) - 150;
+    const sharkX = ((time * 85) % (width + 300)) - 150;
     const sharkY = height * 0.38;
     drawCartoonShark(ctx, time, sharkX, sharkY);
 
@@ -374,12 +385,11 @@ export function renderCreaturesByDepth(
     const anglerY = height * 0.65;
     drawAnglerFish(ctx, time, anglerX, anglerY);
   } else if (depthLevel === 4) {
-    // crab traverses smoothly from offscreen until completely exiting offscreen
     const crabX = ((time * 40) % (width + 200)) - 100;
     const crabY = waterMaxY + 30;
     drawCartoonCrab(ctx, time, crabX, crabY);
 
-    const fishX = (time * 65) % (width + 160) - 80;
+    const fishX = ((time * 65) % (width + 160)) - 80;
     const fishY = height * 0.32;
     drawClownFish(ctx, time, fishX, fishY, 14);
   }

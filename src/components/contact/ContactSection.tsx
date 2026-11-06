@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Copy,
@@ -17,41 +17,57 @@ import {
 import { useClipboard } from '../../hooks/useClipboard';
 import { profileData } from '../../data/portfolioData';
 import { ContactOceanCanvas } from './ContactOceanCanvas';
+import { useInViewport } from '../../hooks/useViewportActivity';
+import { scrollToTopSmooth } from '../../hooks/useLenisSmoothScroll';
 
 const inquiryTopics = [
   { id: 'web', label: 'Full-Stack Web', subject: 'Inquiry: Full-Stack Web Development' },
   { id: 'collab', label: 'Collaboration', subject: 'Inquiry: Collaboration & Discussion' }
 ];
 
-export const ContactSection: React.FC = () => {
-  const { copied, copy } = useClipboard();
-  const [selectedTopic, setSelectedTopic] = useState(inquiryTopics[0]);
-  const [currentTime, setCurrentTime] = useState<string>('');
-  const [isFlipped, setIsFlipped] = useState<boolean>(false);
-  const [submarineClicks, setSubmarineClicks] = useState<number>(0);
-  const [showHeart, setShowHeart] = useState<boolean>(false);
+const JAKARTA_TIME_FORMATTER = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Asia/Jakarta',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false
+});
+
+// Isolated clock component so 1Hz ticks never re-render the entire ContactSection
+const JakartaClock: React.FC<{ isActive: boolean }> = React.memo(({ isActive }) => {
+  const [currentTime, setCurrentTime] = useState<string>(() =>
+    JAKARTA_TIME_FORMATTER.format(new Date())
+  );
 
   useEffect(() => {
+    if (!isActive) return;
+
     const updateTime = () => {
-      const now = new Date();
-      const options: Intl.DateTimeFormatOptions = {
-        timeZone: 'Asia/Jakarta',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      };
-      setCurrentTime(new Intl.DateTimeFormat('en-GB', options).format(now));
+      setCurrentTime(JAKARTA_TIME_FORMATTER.format(new Date()));
     };
 
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isActive]);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  return (
+    <span className="text-sm font-mono font-black text-[#0f172a] tabular-nums">
+      {currentTime || '16:00:00'}
+    </span>
+  );
+});
+JakartaClock.displayName = 'JakartaClock';
+
+export const ContactSection: React.FC = () => {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isInView = useInViewport(sectionRef, '150px');
+
+  const { copied, copy } = useClipboard();
+  const [selectedTopic, setSelectedTopic] = useState(inquiryTopics[0]);
+  const [isFlipped, setIsFlipped] = useState<boolean>(false);
+  const [submarineClicks, setSubmarineClicks] = useState<number>(0);
+  const [showHeart, setShowHeart] = useState<boolean>(false);
 
   const handleSubmarineClick = () => {
     setSubmarineClicks((prev) => prev + 1);
@@ -68,9 +84,11 @@ export const ContactSection: React.FC = () => {
   return (
     <section
       id="contact"
+      ref={sectionRef}
       className="relative z-20 -mt-1 w-full bg-[#02587a] select-none py-24 overflow-hidden text-[#0f172a]"
+      style={{ contain: 'layout paint' }}
     >
-      <ContactOceanCanvas />
+      <ContactOceanCanvas isActive={isInView} />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.7, y: 20 }}
@@ -81,19 +99,13 @@ export const ContactSection: React.FC = () => {
         onClick={handleSubmarineClick}
         title="Click the submarine"
       >
-        <motion.div
-          animate={{
-            y: [0, -10, 0],
-            rotate: [-4, 4, -4]
-          }}
-          transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
-        >
+        <div className={`anim-gentle-bob ${isInView ? '' : 'anim-paused'}`}>
           <motion.div
             animate={{ rotateY: submarineClicks * 360, scale: showHeart ? 1.2 : 1 }}
             transition={{ duration: 0.7, type: 'spring', stiffness: 200 }}
             className="relative"
           >
-            <svg width="68" height="68" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-xl">
+            <svg width="68" height="68" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M26 12 L26 20 L32 20" stroke="#0f172a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
               <ellipse cx="32" cy="34" rx="24" ry="14" fill="#fde047" stroke="#0f172a" strokeWidth="2.5" />
               <path d="M24 20 C24 17 38 17 38 20 L38 24 L24 24 Z" fill="#facc15" stroke="#0f172a" strokeWidth="2" />
@@ -116,20 +128,15 @@ export const ContactSection: React.FC = () => {
               )}
             </AnimatePresence>
           </motion.div>
-        </motion.div>
+        </div>
       </motion.div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-12 space-y-6 sm:space-y-8">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
-          transition={{
-            duration: 0.55,
-            type: 'spring',
-            stiffness: 220,
-            damping: 24
-          }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className="p-5 sm:p-12 rounded-[24px] sm:rounded-[36px] bg-[#fffdf5] border-2 sm:border-3 border-[#0f172a] shadow-[6px_6px_0px_#0f172a] sm:shadow-[10px_10px_0px_#0f172a] space-y-5 sm:space-y-8"
         >
           {/* header */}
@@ -162,7 +169,7 @@ export const ContactSection: React.FC = () => {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0.15 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
               className="md:col-span-7 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#fff9d4] border-2 border-[#0f172a] shadow-[3px_3px_0px_#0f172a] sm:shadow-[4px_4px_0px_#0f172a] flex flex-col justify-between space-y-4 sm:space-y-5"
             >
               <div className="space-y-2.5 sm:space-y-3">
@@ -233,7 +240,7 @@ export const ContactSection: React.FC = () => {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0.22 }}
+              transition={{ duration: 0.4, delay: 0.16 }}
               style={{ perspective: '800px' }}
               className="md:col-span-5 min-h-[220px]"
             >
@@ -254,9 +261,7 @@ export const ContactSection: React.FC = () => {
                         <Clock className="w-4 h-4 text-[#0284c7]" />
                         <span>Local Time (WIB)</span>
                       </div>
-                      <span className="text-sm font-mono font-black text-[#0f172a] tabular-nums">
-                        {currentTime || '16:00:00'}
-                      </span>
+                      <JakartaClock isActive={isInView && !isFlipped} />
                     </div>
 
                     <div className="flex items-center gap-2 text-xs font-mono text-[#475569] px-1">
@@ -353,7 +358,7 @@ export const ContactSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.45, delay: 0.3 }}
+          transition={{ duration: 0.4, delay: 0.22 }}
           className="p-4 sm:p-6 rounded-2xl sm:rounded-[28px] bg-[#fffdf5] border-2 sm:border-3 border-[#0f172a] shadow-[4px_4px_0px_#0f172a] sm:shadow-[6px_6px_0px_#0f172a] flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-[11px] sm:text-xs font-mono font-bold text-[#475569]"
         >
           <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-[#0f172a] text-center sm:text-left">
@@ -370,7 +375,7 @@ export const ContactSection: React.FC = () => {
           <div className="flex items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
             <button
               type="button"
-              onClick={scrollToTop}
+              onClick={scrollToTopSmooth}
               className="px-4 py-1.5 sm:px-3.5 sm:py-1.5 rounded-xl bg-[#fff9d4] hover:bg-[#fde047] text-[#0f172a] border-2 border-[#0f172a] shadow-[2px_2px_0px_#0f172a] transition-all cursor-pointer flex items-center justify-center gap-1.5 font-mono font-bold text-xs"
             >
               <span>Back to Top</span>

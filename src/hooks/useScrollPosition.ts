@@ -1,33 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { scrollToSectionSmooth } from './useLenisSmoothScroll';
 
 export function useScrollPosition() {
-  const [scrollY, setScrollY] = useState<number>(0);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const isScrolledRef = useRef<boolean>(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrollY(currentScrollY);
-      setIsScrolled(currentScrollY > 40);
+    let ticking = false;
+
+    const update = () => {
+      const nextScrolled = window.scrollY > 40;
+      if (nextScrolled !== isScrolledRef.current) {
+        isScrolledRef.current = nextScrolled;
+        setIsScrolled(nextScrolled);
+      }
+      ticking = false;
     };
 
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const navOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+  const scrollToSection = useCallback((id: string) => {
+    scrollToSectionSmooth(id, -80);
+  }, []);
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  return { scrollY, isScrolled, scrollToSection };
+  return { isScrolled, scrollToSection };
 }

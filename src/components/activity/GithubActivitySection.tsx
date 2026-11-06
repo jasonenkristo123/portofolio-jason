@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GitCommit, Calendar, Flame, ExternalLink, RefreshCw } from 'lucide-react';
-import { SiGithub } from '@icons-pack/react-simple-icons';
+import SiGithub from '@icons-pack/react-simple-icons/icons/SiGithub';
 import { useGithubContributions } from '../../hooks/useGithubContributions';
 import { GithubHeatmapGrid } from './GithubHeatmapGrid';
 import { profileData } from '../../data/portfolioData';
@@ -26,7 +26,11 @@ export const GithubActivitySection: React.FC = () => {
   };
 
   return (
-    <section id="activity" className="relative -mt-2 pt-28 pb-24 sm:pt-36 sm:pb-32 bg-gradient-to-b from-[#edd69a] via-[#f2e0aa] to-[#f2e0aa] overflow-hidden select-none z-20">
+    <section
+      id="activity"
+      className="relative -mt-2 pt-28 pb-24 sm:pt-36 sm:pb-32 bg-gradient-to-b from-[#edd69a] via-[#f2e0aa] to-[#f2e0aa] overflow-hidden select-none z-20"
+      style={{ contain: 'layout paint' }}
+    >
       {/* organic coastal sand dune boundary transition */}
       <div className="absolute top-0 inset-x-0 h-16 sm:h-24 pointer-events-none overflow-hidden z-0">
         <svg

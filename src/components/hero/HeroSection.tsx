@@ -12,25 +12,31 @@ import type { BeachCrabHandle } from './BeachCrab';
 import { BeachDecorations } from './BeachDecorations';
 import { TactileButton } from '../ui/TactileButton';
 import { profileData } from '../../data/portfolioData';
+import { useInViewport } from '../../hooks/useViewportActivity';
+import { scrollToSectionSmooth } from '../../hooks/useLenisSmoothScroll';
 
-export const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  isPaused?: boolean;
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ isPaused = false }) => {
+  const sectionRef = useRef<HTMLElement | null>(null);
   const oceanRef = useRef<OceanHeroHandle | null>(null);
   const stageRef = useRef<HeroPhysicsStageHandle | null>(null);
   const crabRef = useRef<BeachCrabHandle | null>(null);
   const [duckExpression, setDuckExpression] = useState<DuckExpression>('normal');
 
+  const isInView = useInViewport(sectionRef, '100px');
+  const isHeroActive = isInView && !isPaused;
+
   const collisionCooldownRef = useRef<boolean>(false);
 
   const handleSplash = (clientX: number, clientY: number, intensity: number) => {
-    if (oceanRef.current) {
-      oceanRef.current.triggerSplash(clientX, clientY, intensity);
-    }
+    oceanRef.current?.triggerSplash(clientX, clientY, intensity);
   };
 
   const handleRipple = (clientX: number, clientY: number, size?: number) => {
-    if (oceanRef.current) {
-      oceanRef.current.triggerRipple(clientX, clientY, size);
-    }
+    oceanRef.current?.triggerRipple(clientX, clientY, size);
   };
 
   const checkDuckCrabCollision = (duckRect: DOMRect) => {
@@ -82,19 +88,20 @@ export const HeroSection: React.FC = () => {
   };
 
   const handleScrollToProjects = () => {
-    const el = document.getElementById('projects');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToSectionSmooth('projects', 0);
   };
 
   return (
-    <section className="relative w-full h-screen min-h-[700px] flex flex-col justify-between pt-16 pb-10 overflow-hidden select-none">
+    <section
+      ref={sectionRef}
+      className="relative w-full h-screen min-h-[700px] flex flex-col justify-between pt-16 pb-10 overflow-hidden select-none"
+      style={{ contain: 'layout paint' }}
+    >
       <div className="absolute inset-0 z-0 pointer-events-auto">
-        <OceanHeroCanvas ref={oceanRef} />
+        <OceanHeroCanvas ref={oceanRef} isActive={isHeroActive} />
       </div>
 
-      <FlyingSeagull />
+      <FlyingSeagull isActive={isHeroActive} />
 
       <SwimmingDuck
         expression={duckExpression}
@@ -102,11 +109,12 @@ export const HeroSection: React.FC = () => {
         onDuckSwim={handleDuckSwim}
         onDuckSplash={(x, y) => handleSplash(x, y, 1.3)}
         onDuckWaddle={checkDuckCrabCollision}
+        isActive={isHeroActive}
       />
 
-      <BeachCrab ref={crabRef} />
+      <BeachCrab ref={crabRef} isActive={isHeroActive} />
 
-      <BeachDecorations />
+      <BeachDecorations isActive={isHeroActive} />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 w-full flex-1 flex flex-col items-center justify-center -translate-y-16 sm:-translate-y-24">
         <div className="w-full flex flex-col items-center text-center">
@@ -115,9 +123,10 @@ export const HeroSection: React.FC = () => {
             onSplash={handleSplash}
             onRipple={handleRipple}
             onDuckExpressionChange={setDuckExpression}
+            isActive={isHeroActive}
           />
 
-          <p className="mt-3 sm:mt-4 max-w-xl text-center text-xs sm:text-base text-[#f8fafc] font-medium leading-relaxed drop-shadow-md px-2">
+          <p className="mt-3 sm:mt-4 max-w-xl text-center text-xs sm:text-base text-[#f8fafc] font-medium leading-relaxed px-2 [text-shadow:0_2px_8px_rgba(2,88,122,0.5)]">
             Full-Stack Developer building scalable, accessible, and high-performance web platforms.
           </p>
 

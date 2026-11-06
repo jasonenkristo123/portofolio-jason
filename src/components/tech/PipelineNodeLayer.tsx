@@ -1,45 +1,16 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  SiReact,
-  SiNextdotjs,
-  SiTypescript,
-  SiJavascript,
-  SiTailwindcss,
-  SiFlutter,
-  SiLaravel,
-  SiNodedotjs,
-  SiMysql,
-  SiPostgresql,
-  SiSupabase,
-  SiFirebase,
-  SiPrisma,
-  SiDocker,
-  SiLinux,
-  SiGit,
-  SiVercel
-} from '@icons-pack/react-simple-icons';
 import type { TechItem, TechLayer } from '../../types/portfolio';
 import type { FlowDomainId } from './PipelineFlowPresets';
+import { techIconMap } from './techIcons';
+import { scrollToSectionSmooth } from '../../hooks/useLenisSmoothScroll';
 
-const iconMap: Record<string, React.FC<{ size?: number; color?: string; className?: string }>> = {
-  react: SiReact,
-  nextdotjs: SiNextdotjs,
-  typescript: SiTypescript,
-  javascript: SiJavascript,
-  tailwindcss: SiTailwindcss,
-  flutter: SiFlutter,
-  laravel: SiLaravel,
-  nodejs: SiNodedotjs,
-  mysql: SiMysql,
-  postgresql: SiPostgresql,
-  supabase: SiSupabase,
-  firebase: SiFirebase,
-  prisma: SiPrisma,
-  docker: SiDocker,
-  linux: SiLinux,
-  git: SiGit,
-  vercel: SiVercel
+const scrollInspectorIntoViewIfNeeded = () => {
+  const inspectorEl = document.getElementById('pipeline-inspector');
+  if (!inspectorEl) return;
+  const rect = inspectorEl.getBoundingClientRect();
+  if (rect.top > window.innerHeight * 0.85 || rect.bottom < 80) {
+    scrollToSectionSmooth('pipeline-inspector', -96);
+  }
 };
 
 interface PipelineNodeLayerProps {
@@ -81,27 +52,22 @@ export const PipelineNodeLayer: React.FC<PipelineNodeLayerProps> = ({
     e.stopPropagation();
     if (!isLayerActiveInDomain) return;
     onSelectLayer(layerId);
-    const inspectorEl = document.getElementById('pipeline-inspector');
-    if (inspectorEl) {
-      inspectorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+    scrollInspectorIntoViewIfNeeded();
   };
 
   return (
-    <motion.div
-      whileHover={isLayerActiveInDomain ? { y: -3 } : undefined}
-      transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+    <div
       onClick={() => {
         if (isLayerActiveInDomain) {
           onSelectLayer(layerId);
         }
       }}
-      className={`p-6 sm:p-7 rounded-[28px] border-2 transition-all duration-300 relative flex flex-col justify-between ${
+      className={`p-6 sm:p-7 rounded-[28px] border-2 transition-all duration-200 relative flex flex-col justify-between ${
         !isLayerActiveInDomain
           ? 'bg-[#f1f5f9]/70 border-dashed border-[#94a3b8] opacity-35 grayscale pointer-events-none cursor-not-allowed select-none shadow-none'
           : isLayerSelected
-          ? 'bg-[#fffdf5] border-[#0f172a] shadow-[8px_8px_0px_#0f172a] ring-3 ring-[#0284c7] cursor-pointer'
-          : 'bg-[#fffdf5] border-[#0f172a] shadow-[6px_6px_0px_#0f172a] cursor-pointer hover:border-[#0284c7]'
+          ? 'bg-[#fffdf5] border-[#0f172a] shadow-[8px_8px_0px_#0f172a] ring-3 ring-[#0284c7] cursor-pointer hover:-translate-y-0.5'
+          : 'bg-[#fffdf5] border-[#0f172a] shadow-[6px_6px_0px_#0f172a] cursor-pointer hover:border-[#0284c7] hover:-translate-y-0.5'
       }`}
     >
       <div>
@@ -164,7 +130,7 @@ export const PipelineNodeLayer: React.FC<PipelineNodeLayerProps> = ({
         {/* tools list */}
         <div className="mt-5 flex flex-wrap gap-2">
           {techItems.map((tech) => {
-            const Icon = iconMap[tech.iconKey];
+            const Icon = techIconMap[tech.iconKey];
             const isToolActive =
               activeDomain === 'all' ||
               (activeDomain === 'web' && tech.category === 'frontend') ||
@@ -183,10 +149,7 @@ export const PipelineNodeLayer: React.FC<PipelineNodeLayerProps> = ({
                   e.stopPropagation();
                   if (!isLayerActiveInDomain || !isToolActive) return;
                   onSelectTech(tech);
-                  const inspectorEl = document.getElementById('pipeline-inspector');
-                  if (inspectorEl) {
-                    inspectorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                  }
+                  scrollInspectorIntoViewIfNeeded();
                 }}
                 className={`group flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all duration-200 ${
                   !isLayerActiveInDomain || !isToolActive
@@ -249,6 +212,6 @@ export const PipelineNodeLayer: React.FC<PipelineNodeLayerProps> = ({
           <span className="text-[#94a3b8]">Inactive</span>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };

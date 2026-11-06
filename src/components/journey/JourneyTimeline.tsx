@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import {
   GraduationCap,
   Layers,
@@ -12,6 +12,7 @@ import {
 import { experienceData } from '../../data/portfolioData';
 import type { ExperienceItem } from '../../types/portfolio';
 import { JourneyOceanCanvas } from './JourneyOceanCanvas';
+import { useInViewport } from '../../hooks/useViewportActivity';
 
 const categoryConfig: Record<
   string,
@@ -60,31 +61,31 @@ const categoryConfig: Record<
 
 export const JourneyTimeline: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const isInView = useInViewport(containerRef, '150px');
 
-  // scroll progress tracker
+  // Direct scroll progress tracker (Lenis already provides scroll smoothing)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start 75%', 'end 80%']
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 24,
-    restDelta: 0.001
-  });
-
   return (
-    <section id="journey" ref={containerRef} className="relative z-20 -mt-1 w-full select-none py-28 overflow-hidden text-[#0f172a]">
+    <section
+      id="journey"
+      ref={containerRef}
+      className="relative z-20 -mt-1 w-full select-none py-28 overflow-hidden text-[#0f172a]"
+      style={{ contain: 'layout paint' }}
+    >
       {/* animated ocean waves, bubbles, and fish */}
-      <JourneyOceanCanvas />
+      <JourneyOceanCanvas isActive={isInView} />
 
       {/* lifebuoy */}
-      <motion.div
-        animate={{ rotate: [-8, 8, -8], y: [0, -8, 0] }}
-        transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
-        className="absolute top-24 right-8 sm:right-24 z-10 pointer-events-none opacity-95"
+      <div
+        className={`absolute top-24 right-8 sm:right-24 z-10 pointer-events-none opacity-95 anim-gentle-bob ${
+          isInView ? '' : 'anim-paused'
+        }`}
       >
-        <svg width="56" height="56" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-xl">
+        <svg width="56" height="56" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="27" cy="27" r="22" fill="#ffffff" stroke="#0f172a" strokeWidth="2.5" />
           <circle cx="27" cy="27" r="11" fill="#0284c7" stroke="#0f172a" strokeWidth="2.5" />
           <path d="M27 5 L27 16" stroke="#ef4444" strokeWidth="8" strokeLinecap="round" />
@@ -92,7 +93,7 @@ export const JourneyTimeline: React.FC = () => {
           <path d="M5 27 L16 27" stroke="#ef4444" strokeWidth="8" strokeLinecap="round" />
           <path d="M38 27 L49 27" stroke="#ef4444" strokeWidth="8" strokeLinecap="round" />
         </svg>
-      </motion.div>
+      </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-12 space-y-8 sm:space-y-12">
         {/* header dock */}
@@ -121,11 +122,11 @@ export const JourneyTimeline: React.FC = () => {
         {/* timeline track */}
         <div className="relative pl-11 sm:pl-20 space-y-7 sm:space-y-12">
           {/* background track */}
-          <div className="absolute top-5 sm:top-6 bottom-5 sm:bottom-6 left-4 sm:left-7 -translate-x-1/2 w-2.5 sm:w-3.5 bg-black/30 rounded-full overflow-hidden border-2 border-white/50 shadow-inner z-0">
+          <div className="absolute top-5 sm:top-6 bottom-5 sm:bottom-6 left-4 sm:left-7 -translate-x-1/2 w-2.5 sm:w-3.5 bg-black/30 rounded-full overflow-hidden border-2 border-white/50 z-0">
             {/* vertical progress */}
             <motion.div
-              style={{ scaleY: smoothProgress, transformOrigin: 'top' }}
-              className="w-full h-full bg-gradient-to-b from-[#fde047] via-[#38bdf8] via-[#4ade80] to-[#fb7185] rounded-full shadow-[0_0_16px_rgba(56,189,248,0.9)]"
+              style={{ scaleY: scrollYProgress, transformOrigin: 'top' }}
+              className="w-full h-full bg-gradient-to-b from-[#fde047] via-[#38bdf8] via-[#4ade80] to-[#fb7185] rounded-full will-change-transform"
             />
           </div>
 
@@ -136,15 +137,13 @@ export const JourneyTimeline: React.FC = () => {
             return (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, x: -25, y: 20 }}
+                initial={{ opacity: 0, x: -20, y: 16 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{
-                  duration: 0.5,
-                  delay: idx * 0.12,
-                  type: 'spring',
-                  stiffness: 240,
-                  damping: 22
+                  duration: 0.4,
+                  delay: idx * 0.08,
+                  ease: [0.22, 1, 0.36, 1]
                 }}
                 className="relative group"
               >
@@ -156,11 +155,7 @@ export const JourneyTimeline: React.FC = () => {
                 </div>
 
                 {/* milestone card */}
-                <motion.div
-                  whileHover={{ y: -4, scale: 1.01 }}
-                  transition={{ type: 'spring', stiffness: 350, damping: 20 }}
-                  className="p-4 sm:p-8 rounded-2xl sm:rounded-[32px] bg-[#fffdf5] border-2 sm:border-3 border-[#0f172a] shadow-[4px_4px_0px_#0f172a] sm:shadow-[6px_6px_0px_#0f172a] hover:shadow-[3px_3px_0px_#0f172a] hover:translate-x-1 hover:translate-y-1 transition-all duration-300 space-y-3 sm:space-y-4 cursor-default"
-                >
+                <div className="p-4 sm:p-8 rounded-2xl sm:rounded-[32px] bg-[#fffdf5] border-2 sm:border-3 border-[#0f172a] shadow-[4px_4px_0px_#0f172a] sm:shadow-[6px_6px_0px_#0f172a] hover:shadow-[3px_3px_0px_#0f172a] hover:translate-x-0.5 hover:translate-y-0.5 transition-all duration-200 space-y-3 sm:space-y-4 cursor-default">
                   {/* card top badges */}
                   <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 pb-3 sm:pb-4 border-b-2 border-[#0f172a]/10">
                     <div className="flex flex-wrap items-center gap-2">
@@ -223,7 +218,7 @@ export const JourneyTimeline: React.FC = () => {
                       </span>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
             );
           })}

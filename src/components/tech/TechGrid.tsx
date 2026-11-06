@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Layers } from 'lucide-react';
 import type { Project, TechItem, TechLayer } from '../../types/portfolio';
 import { techStackData, projectsData } from '../../data/portfolioData';
@@ -6,21 +6,25 @@ import { PipelineFlowPresets, type FlowDomainId } from './PipelineFlowPresets';
 import { PipelineNodeLayer } from './PipelineNodeLayer';
 import { PipelineInspector } from './PipelineInspector';
 import { TechBeachDecorations } from './TechBeachDecorations';
+import { useInViewport } from '../../hooks/useViewportActivity';
+
+// Partition static technologies once at module load
+const CLIENT_TECH = techStackData.filter((t) => t.layer === 'client');
+const BACKEND_TECH = techStackData.filter((t) => t.layer === 'backend');
+const DATABASE_TECH = techStackData.filter((t) => t.layer === 'database');
+const DEVOPS_TECH = techStackData.filter((t) => t.layer === 'devops');
 
 interface TechGridProps {
   onOpenProject?: (project: Project) => void;
 }
 
 export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isInView = useInViewport(sectionRef, '120px');
+
   const [activeDomain, setActiveDomain] = useState<FlowDomainId>('all');
   const [selectedLayer, setSelectedLayer] = useState<TechLayer>('client');
   const [selectedTech, setSelectedTech] = useState<TechItem | null>(null);
-
-  // partition technologies by architectural layer
-  const clientTech = techStackData.filter((t) => t.layer === 'client');
-  const backendTech = techStackData.filter((t) => t.layer === 'backend');
-  const databaseTech = techStackData.filter((t) => t.layer === 'database');
-  const devopsTech = techStackData.filter((t) => t.layer === 'devops');
 
   const handleSelectDomain = (domain: FlowDomainId) => {
     setActiveDomain(domain);
@@ -54,9 +58,14 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
   };
 
   return (
-    <section id="stack" className="relative z-20 -mt-1 w-full bg-[#fff9d4] select-none">
+    <section
+      id="stack"
+      ref={sectionRef}
+      className="relative z-20 -mt-1 w-full bg-[#fff9d4] select-none"
+      style={{ contain: 'layout paint' }}
+    >
       {/* background decorations */}
-      <TechBeachDecorations />
+      <TechBeachDecorations isActive={isInView} />
 
       {/* content wrapper */}
       <div className="relative z-10 pt-28 pb-24 max-w-7xl mx-auto px-6 sm:px-12">
@@ -111,7 +120,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
               title="Frontend & Web"
               subtitle="Client UI"
               roleDescription="Modern web interface and cross-platform mobile application development."
-              techItems={clientTech}
+              techItems={CLIENT_TECH}
               activeDomain={activeDomain}
               selectedTech={selectedTech}
               onSelectTech={handleSelectTech}
@@ -126,7 +135,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
               title="Backend"
               subtitle="Server & API"
               roleDescription="Server development, REST APIs, and backend integration."
-              techItems={backendTech}
+              techItems={BACKEND_TECH}
               activeDomain={activeDomain}
               selectedTech={selectedTech}
               onSelectTech={handleSelectTech}
@@ -141,7 +150,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
               title="Database"
               subtitle="Data & Storage"
               roleDescription="Relational data management and real-time cloud databases."
-              techItems={databaseTech}
+              techItems={DATABASE_TECH}
               activeDomain={activeDomain}
               selectedTech={selectedTech}
               onSelectTech={handleSelectTech}
@@ -156,7 +165,7 @@ export const TechGrid: React.FC<TechGridProps> = ({ onOpenProject }) => {
               title="DevOps & Tools"
               subtitle="Environment"
               roleDescription="Linux environments, Docker containers, and application deployment."
-              techItems={devopsTech}
+              techItems={DEVOPS_TECH}
               activeDomain={activeDomain}
               selectedTech={selectedTech}
               onSelectTech={handleSelectTech}

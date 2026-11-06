@@ -1,23 +1,17 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
-export const BeachDecorations: React.FC = () => {
+interface BeachDecorationsProps {
+  isActive?: boolean;
+}
+
+export const BeachDecorations: React.FC<BeachDecorationsProps> = ({ isActive = true }) => {
   return (
     <div className="absolute inset-x-0 bottom-0 h-64 z-20 pointer-events-none overflow-hidden select-none">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="absolute left-1 sm:left-6 md:left-10 bottom-1 sm:bottom-3 pointer-events-auto cursor-pointer group scale-[0.62] sm:scale-[0.85] md:scale-100 origin-bottom-left"
-      >
-        <motion.div
-          animate={{ rotate: [-1, 1.5, -1] }}
-          transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-          className="relative"
-        >
-          <div className="absolute bottom-2 left-6 w-28 h-10 bg-[#ebdcae]/80 rounded-full blur-[3px] -rotate-6" />
-
-          <svg width="140" height="160" viewBox="0 0 130 150" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+      {/* Palm Tree */}
+      <div className="absolute left-1 sm:left-6 md:left-10 bottom-1 sm:bottom-3 pointer-events-auto cursor-pointer group scale-[0.62] sm:scale-[0.85] md:scale-100 origin-bottom-left">
+        <div className={`relative ${!isActive ? 'anim-paused' : 'anim-gentle-sway'}`}>
+          <svg width="140" height="160" viewBox="0 0 130 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="52" cy="144" rx="34" ry="6" fill="#ebdcae" />
             <path
               d="M40 145 C45 110, 38 75, 65 35"
               stroke="#8C6239"
@@ -70,19 +64,14 @@ export const BeachDecorations: React.FC = () => {
               strokeWidth="1.5"
             />
           </svg>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.25 }}
-        className="flex absolute left-1/2 -translate-x-1/2 bottom-8 sm:bottom-14 md:bottom-20 pointer-events-auto flex-col items-center group cursor-pointer scale-[0.58] sm:scale-[0.78] md:scale-100 origin-bottom"
-      >
+      {/* Beach Volleyball Court */}
+      <div className="flex absolute left-1/2 -translate-x-1/2 bottom-8 sm:bottom-14 md:bottom-20 pointer-events-auto flex-col items-center group cursor-pointer scale-[0.58] sm:scale-[0.78] md:scale-100 origin-bottom">
         <div className="relative">
-          <div className="absolute bottom-2 left-6 w-96 h-14 bg-[#ebdcae]/75 rounded-full blur-[3px]" />
-
-          <svg width="380" height="125" viewBox="0 0 380 125" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+          <svg width="380" height="125" viewBox="0 0 380 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="190" cy="116" rx="160" ry="7" fill="#ebdcae" />
             <polygon
               points="20,60 360,60 338,116 42,116"
               fill="#f5ebb8"
@@ -133,20 +122,12 @@ export const BeachDecorations: React.FC = () => {
             </g>
           </svg>
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="absolute right-1 sm:right-6 md:right-12 bottom-1 sm:bottom-3 pointer-events-auto flex items-end gap-1.5 sm:gap-2.5 md:gap-3 scale-[0.62] sm:scale-[0.85] md:scale-100 origin-bottom-right"
-      >
-        <motion.div
-          whileHover={{ rotate: -18, y: -4 }}
-          className="cursor-pointer select-none"
-        >
-          <div className="w-6 h-2 bg-[#ebdcae]/80 rounded-full blur-[1px] translate-y-1" />
-          <svg width="32" height="72" viewBox="0 0 32 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="-rotate-12 drop-shadow-md">
+      {/* Surfboard, Lounger & Umbrella */}
+      <div className="absolute right-1 sm:right-6 md:right-12 bottom-1 sm:bottom-3 pointer-events-auto flex items-end gap-1.5 sm:gap-2.5 md:gap-3 scale-[0.62] sm:scale-[0.85] md:scale-100 origin-bottom-right">
+        <div className="cursor-pointer select-none transition-transform duration-200 hover:-rotate-12 hover:-translate-y-1">
+          <svg width="32" height="72" viewBox="0 0 32 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="-rotate-12">
             <path
               d="M16 2 C26 18, 28 52, 22 70 C16 72, 16 72, 10 70 C4 52, 6 18, 16 2 Z"
               fill="#0284C7"
@@ -164,14 +145,11 @@ export const BeachDecorations: React.FC = () => {
               strokeWidth="2"
             />
           </svg>
-        </motion.div>
+        </div>
 
-        <motion.div
-          whileHover={{ scale: 1.05, y: -2 }}
-          className="cursor-pointer select-none relative mb-1"
-        >
-          <div className="absolute -bottom-1 left-2 w-24 h-4 bg-[#ebdcae]/80 rounded-full blur-[2px]" />
-          <svg width="95" height="42" viewBox="0 0 95 42" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+        <div className="cursor-pointer select-none relative mb-1 transition-transform duration-200 hover:scale-105 hover:-translate-y-0.5">
+          <svg width="95" height="44" viewBox="0 0 95 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="48" cy="40" rx="40" ry="3.5" fill="#ebdcae" />
             <line x1="12" y1="28" x2="8" y2="40" stroke="#8C6239" strokeWidth="3" strokeLinecap="round" />
             <line x1="50" y1="28" x2="48" y2="40" stroke="#8C6239" strokeWidth="3" strokeLinecap="round" />
             <line x1="82" y1="18" x2="86" y2="40" stroke="#8C6239" strokeWidth="3" strokeLinecap="round" />
@@ -195,14 +173,11 @@ export const BeachDecorations: React.FC = () => {
             />
             <rect x="74" y="8" width="12" height="7" rx="3" fill="#F97316" stroke="#EA580C" strokeWidth="1" />
           </svg>
-        </motion.div>
+        </div>
 
-        <motion.div
-          whileHover={{ rotate: 4, scale: 1.05 }}
-          className="cursor-pointer select-none relative"
-        >
-          <div className="absolute -bottom-1 left-4 w-28 h-8 bg-[#ebdcae]/80 rounded-full blur-[3px]" />
-          <svg width="105" height="115" viewBox="0 0 105 115" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
+        <div className="cursor-pointer select-none relative transition-transform duration-200 hover:rotate-3 hover:scale-105">
+          <svg width="105" height="116" viewBox="0 0 105 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="52" cy="112" rx="28" ry="4" fill="#ebdcae" />
             <line x1="52" y1="35" x2="52" y2="112" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" />
             <line x1="52" y1="35" x2="52" y2="112" stroke="#E2E8F0" strokeWidth="2" strokeLinecap="round" />
             <circle cx="52" cy="18" r="3" fill="#F97316" />
@@ -220,8 +195,8 @@ export const BeachDecorations: React.FC = () => {
               strokeLinecap="round"
             />
           </svg>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 };

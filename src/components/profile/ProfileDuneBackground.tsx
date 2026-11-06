@@ -3,9 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface ProfileDuneBackgroundProps {
   isFlooded: boolean;
+  isActive?: boolean;
 }
 
-export const ProfileDuneBackground: React.FC<ProfileDuneBackgroundProps> = ({ isFlooded }) => {
+export const ProfileDuneBackground: React.FC<ProfileDuneBackgroundProps> = ({
+  isFlooded,
+  isActive = true
+}) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
@@ -61,9 +65,9 @@ export const ProfileDuneBackground: React.FC<ProfileDuneBackgroundProps> = ({ is
 
       {isFlooded && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="absolute inset-0 pointer-events-none"
         >
           <svg viewBox="0 0 1440 900" fill="none" className="w-full h-full">
@@ -88,12 +92,12 @@ export const ProfileDuneBackground: React.FC<ProfileDuneBackgroundProps> = ({ is
           {!isFlooded ? (
             <motion.div
               key="castle-intact"
-              initial={{ scale: 0.8, y: 15, opacity: 0 }}
+              initial={{ scale: 0.85, y: 12, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.8, y: 15, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+              exit={{ scale: 0.85, y: 12, opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <svg width="110" height="95" viewBox="0 0 110 95" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+              <svg width="110" height="95" viewBox="0 0 110 95" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="55" cy="85" rx="50" ry="9" fill="#ebdcae" />
                 <path d="M15 78 L95 78 L90 86 L20 86 Z" fill="#c4ad82" />
                 <rect x="22" y="44" width="66" height="36" rx="2" fill="#dfcca8" stroke="#8c6239" strokeWidth="2" />
@@ -119,12 +123,12 @@ export const ProfileDuneBackground: React.FC<ProfileDuneBackgroundProps> = ({ is
           ) : (
             <motion.div
               key="sand-mound"
-              initial={{ scale: 0.8, y: -10, opacity: 0 }}
+              initial={{ scale: 0.85, y: -8, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.8, y: -10, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+              exit={{ scale: 0.85, y: -8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <svg width="110" height="95" viewBox="0 0 110 95" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+              <svg width="110" height="95" viewBox="0 0 110 95" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="55" cy="82" rx="52" ry="12" fill="#c4ad82" />
                 <path d="M12 84 Q55 46 98 84 Z" fill="#dfcca8" stroke="#8c6239" strokeWidth="2" />
                 <path d="M30 84 Q55 58 80 84 Z" fill="#ebdcae" />
@@ -136,35 +140,43 @@ export const ProfileDuneBackground: React.FC<ProfileDuneBackgroundProps> = ({ is
         </AnimatePresence>
       </div>
 
-      {/* Starfish */}
-      <motion.div
-        animate={isFlooded ? { rotate: 215, x: 25, y: 35 } : { rotate: [-3, 3, -3], x: 0, y: [0, -3, 0] }}
-        transition={{ repeat: isFlooded ? 0 : Infinity, duration: isFlooded ? 0.6 : 6, ease: 'easeInOut' }}
+      {/* Starfish (GPU CSS animation paused offscreen instead of infinite JS Framer Motion) */}
+      <div
+        style={{
+          transform: isFlooded ? 'translate3d(25px, 35px, 0) rotate(215deg)' : undefined,
+          transition: 'transform 0.6s ease-out'
+        }}
         className="absolute top-24 right-12 sm:right-32 opacity-80"
       >
-        <svg width="38" height="38" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
-          <path
-            d="M22 2 L26 15 L39 12 L30 22 L37 34 L24 29 L16 40 L16 27 L5 21 L17 16 Z"
-            fill="#F97316"
-            stroke="#EA580C"
-            strokeWidth="1.5"
-            strokeLinejoin="round"
-          />
-          <circle cx="22" cy="22" r="2.5" fill="#FED7AA" />
-          <circle cx="24" cy="14" r="1" fill="#FED7AA" />
-          <circle cx="31" cy="22" r="1" fill="#FED7AA" />
-          <circle cx="27" cy="28" r="1" fill="#FED7AA" />
-          <circle cx="17" cy="27" r="1" fill="#FED7AA" />
-        </svg>
-      </motion.div>
+        <div className={!isActive || isFlooded ? 'anim-paused' : 'anim-gentle-bob'}>
+          <svg width="38" height="38" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M22 2 L26 15 L39 12 L30 22 L37 34 L24 29 L16 40 L16 27 L5 21 L17 16 Z"
+              fill="#F97316"
+              stroke="#EA580C"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+            <circle cx="22" cy="22" r="2.5" fill="#FED7AA" />
+            <circle cx="24" cy="14" r="1" fill="#FED7AA" />
+            <circle cx="31" cy="22" r="1" fill="#FED7AA" />
+            <circle cx="27" cy="28" r="1" fill="#FED7AA" />
+            <circle cx="17" cy="27" r="1" fill="#FED7AA" />
+          </svg>
+        </div>
+      </div>
 
       {/* Seashell */}
-      <motion.div
-        animate={isFlooded ? { rotate: 85, x: -35, y: 40 } : { rotate: 12, x: 0, y: 0 }}
-        transition={{ duration: 0.6 }}
+      <div
+        style={{
+          transform: isFlooded
+            ? 'translate3d(-35px, 40px, 0) rotate(85deg)'
+            : 'translate3d(0, 0, 0) rotate(12deg)',
+          transition: 'transform 0.6s ease-out'
+        }}
         className="absolute top-1/2 left-8 sm:left-20 opacity-75"
       >
-        <svg width="32" height="30" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+        <svg width="32" height="30" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M18 3 C26 3, 33 11, 33 21 C33 29, 26 31, 18 31 C10 31, 3 29, 3 21 C3 11, 10 3, 18 3 Z"
             fill="#ebdcae"
@@ -175,7 +187,7 @@ export const ProfileDuneBackground: React.FC<ProfileDuneBackgroundProps> = ({ is
           <line x1="18" y1="3" x2="10" y2="29" stroke="#c4ad82" strokeWidth="1" />
           <line x1="18" y1="3" x2="26" y2="29" stroke="#c4ad82" strokeWidth="1" />
         </svg>
-      </motion.div>
+      </div>
     </div>
   );
 };

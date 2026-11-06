@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type MotionValue } from 'framer-motion';
 import {
   ArrowUpRight,
   ExternalLink,
@@ -14,9 +14,11 @@ import { AnimatedOceanSlideBackground } from './AnimatedOceanSlideBackground';
 interface FlagshipSlideCardProps {
   project: Project;
   index: number;
-  yMotion?: any;
-  opacityMotion?: any;
+  yMotion?: MotionValue<string> | string;
+  opacityMotion?: MotionValue<number> | number;
   depthLevel?: 1 | 2 | 3;
+  isActive?: boolean;
+  isVisible?: boolean;
   onSelectProject: (project: Project) => void;
 }
 
@@ -26,17 +28,25 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
   yMotion = '0%',
   opacityMotion = 1,
   depthLevel = (index + 1) as 1 | 2 | 3,
+  isActive = true,
+  isVisible = true,
   onSelectProject
 }) => {
   const zIndex = index === 0 ? 10 : index === 1 ? 20 : 30;
 
   return (
     <motion.div
-      style={{ y: yMotion, opacity: opacityMotion, zIndex }}
-      className="absolute inset-0 w-full h-full flex flex-col justify-between overflow-hidden select-none bg-[#0284c7] shadow-[0_-8px_24px_rgba(15,23,42,0.35)]"
+      style={{
+        y: yMotion,
+        opacity: opacityMotion,
+        zIndex,
+        visibility: isVisible ? 'visible' : 'hidden',
+        contain: 'layout paint'
+      }}
+      className="absolute inset-0 w-full h-full flex flex-col justify-between overflow-hidden select-none bg-[#0284c7] shadow-[0_-8px_24px_rgba(15,23,42,0.35)] will-change-transform"
     >
       {/* background ocean */}
-      <AnimatedOceanSlideBackground depthLevel={depthLevel} />
+      <AnimatedOceanSlideBackground depthLevel={depthLevel} isActive={isActive} />
 
       {/* slide metadata */}
       <div className="relative z-10 max-w-7xl mx-auto w-full pt-20 sm:pt-24 px-6 sm:px-12 flex items-center justify-between">
@@ -55,7 +65,7 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
       <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-12 my-auto py-2 sm:py-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-center">
           {/* project details card */}
-          <div className="lg:col-span-6 p-4 sm:p-7 sm:p-9 rounded-2xl sm:rounded-[32px] bg-[#fffdf5] border-2 border-[#0f172a] shadow-[5px_5px_0px_#0f172a] sm:shadow-[8px_8px_0px_#0f172a] space-y-3 sm:space-y-5">
+          <div className="lg:col-span-6 p-4 sm:p-7 lg:p-9 rounded-2xl sm:rounded-[32px] bg-[#fffdf5] border-2 border-[#0f172a] shadow-[5px_5px_0px_#0f172a] sm:shadow-[8px_8px_0px_#0f172a] space-y-3 sm:space-y-5">
             {/* title and subtitle */}
             <div className="space-y-1">
               <h3 className="text-xl sm:text-3xl lg:text-5xl font-black text-[#0f172a] tracking-tight leading-[1.08]">
@@ -92,7 +102,8 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
                 return (
                   <div
                     key={idx}
-                    className={`p-1.5 sm:p-3 rounded-xl sm:rounded-2xl ${stickerBg} border-2 border-[#0f172a] text-center shadow-[2px_2px_0px_#0f172a] sm:shadow-[3px_3px_0px_#0f172a] flex flex-col justify-center min-h-[44px] sm:min-h-[58px]`}>
+                    className={`p-1.5 sm:p-3 rounded-xl sm:rounded-2xl ${stickerBg} border-2 border-[#0f172a] text-center shadow-[2px_2px_0px_#0f172a] sm:shadow-[3px_3px_0px_#0f172a] flex flex-col justify-center min-h-[44px] sm:min-h-[58px]`}
+                  >
                     <div className={`text-[9px] sm:text-[11px] font-mono font-bold uppercase ${labelColor} leading-tight`}>
                       {m.label}
                     </div>
@@ -182,7 +193,7 @@ export const FlagshipSlideCard: React.FC<FlagshipSlideCardProps> = ({
             <ProjectPreviewPlaceholder
               project={project}
               isMobileFrame={project.category === 'mobile'}
-              className="aspect-[16/10] w-full shadow-[8px_8px_0px_#0f172a] transition-all duration-300 group-hover:scale-[1.01] group-hover:shadow-[10px_10px_0px_#0f172a]"
+              className="aspect-[16/10] w-full shadow-[8px_8px_0px_#0f172a] transition-transform duration-300 group-hover:scale-[1.01]"
             />
 
             <div className="absolute bottom-5 right-5 px-3.5 py-1.5 rounded-xl bg-[#fde047] border-2 border-[#0f172a] text-xs font-mono font-black text-[#0f172a] shadow-[3px_3px_0px_#0f172a] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2 pointer-events-none">

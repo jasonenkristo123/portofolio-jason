@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import type { Project } from './types/portfolio';
 import { useLenisSmoothScroll } from './hooks/useLenisSmoothScroll';
 import { NavigationBar } from './components/navigation/NavigationBar';
@@ -10,7 +10,12 @@ import { TechGrid } from './components/tech/TechGrid';
 import { GithubActivitySection } from './components/activity/GithubActivitySection';
 import { JourneyTimeline } from './components/journey/JourneyTimeline';
 import { ContactSection } from './components/contact/ContactSection';
-import { ProjectCaseStudyModal } from './components/projects/ProjectCaseStudyModal';
+
+const ProjectCaseStudyModal = lazy(() =>
+  import('./components/projects/ProjectCaseStudyModal').then((m) => ({
+    default: m.ProjectCaseStudyModal
+  }))
+);
 
 export function App() {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -27,7 +32,7 @@ export function App() {
       <NavigationBar />
 
       <main className="relative">
-        <HeroSection />
+        <HeroSection isPaused={showWelcome} />
         <EditorialProfile />
         <ProjectShowcase onOpenProject={setActiveModalProject} />
         <TechGrid onOpenProject={setActiveModalProject} />
@@ -36,11 +41,15 @@ export function App() {
         <ContactSection />
       </main>
 
-      <ProjectCaseStudyModal
-        project={activeModalProject}
-        isOpen={!!activeModalProject}
-        onClose={() => setActiveModalProject(null)}
-      />
+      {activeModalProject && (
+        <Suspense fallback={null}>
+          <ProjectCaseStudyModal
+            project={activeModalProject}
+            isOpen={!!activeModalProject}
+            onClose={() => setActiveModalProject(null)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

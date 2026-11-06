@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import type { ContributionDay } from '../../hooks/useGithubContributions';
 
 interface GithubHeatmapGridProps {
@@ -34,8 +33,61 @@ const getBeachLevelColor = (level: number): string => {
   }
 };
 
+interface HeatmapCalendarBodyProps {
+  weeks: ContributionDay[][];
+  monthLabels: Map<number, string>;
+  onCellEnter: (day: ContributionDay, element: HTMLDivElement) => void;
+  onGridLeave: () => void;
+}
+
+const HeatmapCalendarBody: React.FC<HeatmapCalendarBodyProps> = React.memo(
+  ({ weeks, monthLabels, onCellEnter, onGridLeave }) => (
+    <div className="heatmap-scroll-wrapper overflow-x-auto pb-2 select-none no-scrollbar sm:scrollbar-thin">
+      <div className="min-w-[760px] flex flex-col">
+        {/* month headers */}
+        <div className="flex text-[11px] font-mono font-bold text-[#8c6239] mb-2.5 pl-8">
+          {weeks.map((_, colIdx) => (
+            <div key={colIdx} className="w-3.5 shrink-0 mr-1 text-center">
+              {monthLabels.get(colIdx) || ''}
+            </div>
+          ))}
+        </div>
+
+        {/* grid body with day labels */}
+        <div className="flex items-start">
+          {/* day of week indicators */}
+          <div className="flex flex-col justify-between h-[116px] pr-3 text-[10px] font-mono font-bold text-[#8c6239]">
+            <span>Mon</span>
+            <span>Wed</span>
+            <span>Fri</span>
+          </div>
+
+          {/* calendar */}
+          <div className="flex gap-1" onMouseLeave={onGridLeave}>
+            {weeks.map((week, weekIdx) => (
+              <div key={weekIdx} className="flex flex-col gap-1 shrink-0">
+                {week.map((day) => (
+                  <div
+                    key={day.date}
+                    className={`relative z-10 w-3.5 h-3.5 rounded-[3px] border cursor-pointer transition-transform duration-100 hover:scale-125 hover:ring-2 hover:ring-[#0f172a] hover:z-20 ${getBeachLevelColor(
+                      day.level
+                    )}`}
+                    onMouseEnter={(e) => onCellEnter(day, e.currentTarget)}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+);
+HeatmapCalendarBody.displayName = 'HeatmapCalendarBody';
+
 export const GithubHeatmapGrid: React.FC<GithubHeatmapGridProps> = ({ contributions, loading }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const cachedContainerRectRef = useRef<DOMRect | null>(null);
   const [hoveredCell, setHoveredCell] = useState<{
     date: string;
     count: number;
@@ -53,6 +105,65 @@ export const GithubHeatmapGrid: React.FC<GithubHeatmapGridProps> = ({ contributi
     }
   }, [contributions, loading]);
 
+  // group contributions into calendar weeks & compute month labels once per data change
+  const { weeks, monthLabels } = useMemo(() => {
+    const groupedWeeks: ContributionDay[][] = [];
+    let currentWeek: ContributionDay[] = [];
+
+    contributions.forEach((day, index) => {
+      currentWeek.push(day);
+      const dayOfWeek = new Date(day.date).getDay();
+      if (dayOfWeek === 6 || index === contributions.length - 1) {
+        groupedWeeks.push(currentWeek);
+        currentWeek = [];
+      }
+    });
+
+    const labels = new Map<number, string>();
+    let previousMonth = -1;
+    let lastColIdx = -10;
+
+    groupedWeeks.forEach((week, colIdx) => {
+      const firstDayOfWeek = week[0];
+      if (firstDayOfWeek) {
+        const monthIndex = new Date(firstDayOfWeek.date).getMonth();
+        if (monthIndex !== previousMonth && colIdx - lastColIdx >= 3) {
+          labels.set(colIdx, MONTH_NAMES[monthIndex]);
+          previousMonth = monthIndex;
+          lastColIdx = colIdx;
+        }
+      }
+    });
+
+    return { weeks: groupedWeeks, monthLabels: labels };
+  }, [contributions]);
+
+  const handleContainerEnter = useCallback(() => {
+    if (containerRef.current) {
+      cachedContainerRectRef.current = containerRef.current.getBoundingClientRect();
+    }
+  }, []);
+
+  const handleCellEnter = useCallback((day: ContributionDay, element: HTMLDivElement) => {
+    const containerRect =
+      cachedContainerRectRef.current ?? containerRef.current?.getBoundingClientRect() ?? null;
+    if (!containerRect) return;
+    cachedContainerRectRef.current = containerRect;
+
+    const cellRect = element.getBoundingClientRect();
+    setHoveredCell({
+      date: day.date,
+      count: day.count,
+      posX: cellRect.left - containerRect.left + cellRect.width / 2,
+      posY: cellRect.top - containerRect.top
+    });
+  }, []);
+
+  const handleGridLeave = useCallback(() => {
+    setHoveredCell(null);
+    cachedContainerRectRef.current = null;
+  }, []);
+
   if (loading) {
     return (
       <div className="w-full overflow-x-auto py-8">
@@ -68,125 +179,37 @@ export const GithubHeatmapGrid: React.FC<GithubHeatmapGridProps> = ({ contributi
     );
   }
 
-  // group contributions into calendar weeks
-  const weeks: ContributionDay[][] = [];
-  let currentWeek: ContributionDay[] = [];
-
-  contributions.forEach((day, index) => {
-    currentWeek.push(day);
-    const dayOfWeek = new Date(day.date).getDay();
-    if (dayOfWeek === 6 || index === contributions.length - 1) {
-      weeks.push(currentWeek);
-      currentWeek = [];
-    }
-  });
-
-  // calculate column positions for month labels with minimum spacing to prevent collision
-  const monthLabels: { month: string; colIndex: number }[] = [];
-  let previousMonth = -1;
-  let lastColIdx = -10;
-
-  weeks.forEach((week, colIdx) => {
-    const firstDayOfWeek = week[0];
-    if (firstDayOfWeek) {
-      const monthIndex = new Date(firstDayOfWeek.date).getMonth();
-      if (monthIndex !== previousMonth && colIdx - lastColIdx >= 3) {
-        monthLabels.push({
-          month: MONTH_NAMES[monthIndex],
-          colIndex: colIdx
-        });
-        previousMonth = monthIndex;
-        lastColIdx = colIdx;
-      }
-    }
-  });
-
-  const handleCellMouseEnter = (day: ContributionDay, event: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const cellRect = event.currentTarget.getBoundingClientRect();
-
-    setHoveredCell({
-      date: day.date,
-      count: day.count,
-      posX: cellRect.left - containerRect.left + cellRect.width / 2,
-      posY: cellRect.top - containerRect.top
-    });
-  };
-
   return (
-    <div ref={containerRef} className="relative w-full rounded-2xl bg-[#fff9d4]/70 border-2 border-[#0f172a] p-3.5 sm:p-6 shadow-[3px_3px_0px_#0f172a]">
-      <AnimatePresence>
-        {hoveredCell && (
-          <motion.div
-            initial={{ opacity: 0, y: 6, scale: 0.92 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.92 }}
-            transition={{ duration: 0.12 }}
-            style={{
-              left: `${hoveredCell.posX}px`,
-              top: `${hoveredCell.posY - 44}px`,
-              transform: 'translateX(-50%)'
-            }}
-            className="pointer-events-none absolute z-50 px-3 py-1.5 rounded-xl bg-[#0f172a] text-white text-[11px] font-mono shadow-2xl border border-[#38bdf8]/40 whitespace-nowrap"
-          >
-            <span className="font-bold text-[#4ade80]">
-              {hoveredCell.count === 0 ? 'No contributions' : `${hoveredCell.count} contributions`}
-            </span>
-            <span className="text-[#64748b] mx-1.5">•</span>
-            <span className="text-[#cbd5e1]">{formatEnglishDate(hoveredCell.date)}</span>
-            {/* tooltip caret */}
-            <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-[6px] border-t-[#0f172a]" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="heatmap-scroll-wrapper overflow-x-auto pb-2 select-none no-scrollbar sm:scrollbar-thin">
-        <div className="min-w-[760px] flex flex-col">
-          {/* month headers */}
-          <div className="flex text-[11px] font-mono font-bold text-[#8c6239] mb-2.5 pl-8">
-            {weeks.map((_, colIdx) => {
-              const matchedMonth = monthLabels.find((m) => m.colIndex === colIdx);
-              return (
-                <div key={colIdx} className="w-3.5 shrink-0 mr-1 text-center">
-                  {matchedMonth ? matchedMonth.month : ''}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* grid body with day labels */}
-          <div className="flex items-start">
-            {/* day of week indicators */}
-            <div className="flex flex-col justify-between h-[116px] pr-3 text-[10px] font-mono font-bold text-[#8c6239]">
-              <span>Mon</span>
-              <span>Wed</span>
-              <span>Fri</span>
-            </div>
-
-            {/* calendar */}
-            <div className="flex gap-1">
-              {weeks.map((week, weekIdx) => (
-                <div key={weekIdx} className="flex flex-col gap-1 shrink-0">
-                  {week.map((day) => {
-                    const isHovered = hoveredCell?.date === day.date;
-                    return (
-                      <div
-                        key={day.date}
-                        className={`w-3.5 h-3.5 rounded-[3px] border cursor-pointer transition-transform duration-100 ${getBeachLevelColor(
-                          day.level
-                        )} ${isHovered ? 'scale-125 ring-2 ring-[#0f172a] z-20' : 'z-10'}`}
-                        onMouseEnter={(e) => handleCellMouseEnter(day, e)}
-                        onMouseLeave={() => setHoveredCell(null)}
-                      />
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
+    <div
+      ref={containerRef}
+      onMouseEnter={handleContainerEnter}
+      className="relative w-full rounded-2xl bg-[#fff9d4]/70 border-2 border-[#0f172a] p-3.5 sm:p-6 shadow-[3px_3px_0px_#0f172a]"
+    >
+      {hoveredCell && (
+        <div
+          style={{
+            left: 0,
+            top: 0,
+            transform: `translate3d(${hoveredCell.posX}px, ${hoveredCell.posY - 44}px, 0) translateX(-50%)`
+          }}
+          className="pointer-events-none absolute z-50 px-3 py-1.5 rounded-xl bg-[#0f172a] text-white text-[11px] font-mono shadow-xl border border-[#38bdf8]/40 whitespace-nowrap will-change-transform"
+        >
+          <span className="font-bold text-[#4ade80]">
+            {hoveredCell.count === 0 ? 'No contributions' : `${hoveredCell.count} contributions`}
+          </span>
+          <span className="text-[#64748b] mx-1.5">•</span>
+          <span className="text-[#cbd5e1]">{formatEnglishDate(hoveredCell.date)}</span>
+          {/* tooltip caret */}
+          <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-[6px] border-t-[#0f172a]" />
         </div>
-      </div>
+      )}
+
+      <HeatmapCalendarBody
+        weeks={weeks}
+        monthLabels={monthLabels}
+        onCellEnter={handleCellEnter}
+        onGridLeave={handleGridLeave}
+      />
 
       {/* footer */}
       <div className="mt-3.5 sm:mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[#64748b] font-mono pt-3 border-t border-[#e8dbc0]">

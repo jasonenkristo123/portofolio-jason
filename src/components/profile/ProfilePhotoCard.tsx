@@ -36,12 +36,14 @@ export const ProfilePhotoCard: React.FC<ProfilePhotoCardProps> = ({ isFlooded })
     >
       <div
         {...tiltProps}
-        className="relative w-full max-w-sm rounded-[32px] p-3.5 bg-[#fffdf5] border border-[#e8dbc0] shadow-2xl shadow-[#8c6239]/8 group cursor-pointer"
+        className="relative w-full max-w-sm rounded-[32px] p-3.5 bg-[#fffdf5] border border-[#e8dbc0] shadow-xl shadow-[#8c6239]/8 group cursor-pointer"
       >
         <div className="relative aspect-[3/4] w-full rounded-[24px] overflow-hidden bg-[#faeed1] border border-[#e2d3b3] flex items-center justify-center">
           <img
             src={profileData.avatarUrl || '/foto-jason.jpeg'}
             alt={profileData.name}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
@@ -51,7 +53,7 @@ export const ProfilePhotoCard: React.FC<ProfilePhotoCardProps> = ({ isFlooded })
 
           <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/75 via-transparent to-transparent opacity-65 pointer-events-none" />
 
-          <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-[#fffdf5]/90 border border-[#e8dbc0] backdrop-blur-md shadow-sm">
+          <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-[#fffdf5]/95 border border-[#e8dbc0] shadow-sm">
             <div className="text-sm font-bold text-[#0f172a]">
               {profileData.name}
             </div>
